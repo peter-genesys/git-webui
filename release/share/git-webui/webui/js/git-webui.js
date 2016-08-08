@@ -1697,7 +1697,7 @@ webui.RemoteView = function(mainView) {
     };
 
     self.element = $(   '<div class="jumbotron">' +
-                            '<h1>Remote access</h1>' +
+                            '<h1>Remote Access</h1>' +
                             '<p>Git webui allows other people to clone and pull from your repository.</p>' +
                             '<div class="git-access">' +
                                 '<p>Other people can clone your repository:</p>' +
