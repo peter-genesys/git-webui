@@ -16,10 +16,13 @@
 
 "use strict"
 
+//PAB Create an object webui
 var webui = webui || {};
 
+//PAB Add attributes to webui
 webui.repo = "/";
 
+//PAB Create an array of colours
 webui.COLORS = ["#ffab1d", "#fd8c25", "#f36e4a", "#fc6148", "#d75ab6", "#b25ade", "#6575ff", "#7b77e9", "#4ea8ec", "#00d0f5", "#4eb94e", "#51af23", "#8b9f1c", "#d0b02f", "#d0853a", "#a4a4a4",
                 "#ffc51f", "#fe982c", "#fd7854", "#ff705f", "#e467c3", "#bd65e9", "#7183ff", "#8985f7", "#55b6ff", "#10dcff", "#51cd51", "#5cba2e", "#9eb22f", "#debe3d", "#e19344", "#b8b8b8",
                 "#ffd03b", "#ffae38", "#ff8a6a", "#ff7e7e", "#ef72ce", "#c56df1", "#8091ff", "#918dff", "#69caff", "#3ee1ff", "#72da72", "#71cf43", "#abbf3c", "#e6c645", "#eda04e", "#c5c5c5",
@@ -33,9 +36,13 @@ webui.COLORS = ["#ffab1d", "#fd8c25", "#f36e4a", "#fc6148", "#d75ab6", "#b25ade"
                 "#e47b07", "#e36920", "#d34e2a", "#ec3b24", "#ba3d99", "#9d45c9", "#4f5aec", "#615dcf", "#3286cf", "#00abca", "#279227", "#3a980c", "#6c7f00", "#ab8b0a", "#b56427", "#757575",
                 "#ff911a", "#fc8120", "#e7623e", "#fa5236", "#ca4da9", "#a74fd3", "#5a68ff", "#6d69db", "#489bd9", "#00bcde", "#36a436", "#47a519", "#798d0a", "#c1a120", "#bf7730", "#8e8e8e"]
 
+//PAB  Add methods to webui
 
+//PAB this warning and error dialogs might be replaceable by jquery-ui componants
 webui.showError = function(message) {
+    //PAB Set the modal text
     $("#error-modal .alert").text(message);
+    //PAB Display the modal
     $("#error-modal").modal('show');
 }
 
@@ -51,6 +58,7 @@ webui.showWarning = function(message) {
         '</div>').appendTo(messageBox);
 }
 
+//PAB methof to launch a git command
 webui.git = function(cmd, arg1, arg2) {
     // cmd = git command line arguments
     // other arguments = optional stdin content and a callback function:
@@ -66,7 +74,7 @@ webui.git = function(cmd, arg1, arg2) {
     }
     $.post("git", cmd, function(data, status, xhr) {
         if (xhr.status == 200) {
-            // Convention : last lines are footer meta data like headers. An empty line marks the start if the footers
+            // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
             var footers = {};
             var fIndex = data.length;
             while (true) {
@@ -307,7 +315,7 @@ webui.SideBarView = function(mainView) {
                                     '<h4>Workspace</h4>' +
                                 '</section>' +
                                 '<section id="sidebar-remote">' +
-                                    '<h4>Remote access</h4>' +
+                                    '<h4>Remote Access</h4>' +
                                 '</section>' +
                                 '<section id="sidebar-local-branches">' +
                                     '<h4>Local Branches</h4>' +
@@ -317,6 +325,14 @@ webui.SideBarView = function(mainView) {
                                 '</section>' +
                                 '<section id="sidebar-tags">' +
                                     '<h4>Tags</h4>' +
+                                '</section>' +
+                                //PAB This is a launcher for GitPatcher
+                                '<section id="sidebar-gitpatcher">' +
+                                    '<h4>' + 
+
+                                    '<img src="/img/GitPatcher.png" style="height:24px;" hspace="8">' +
+                                    'GitPatcher' +
+                                    '</h4>' +
                                 '</section>' +
                             '</div>' +
                         '</div>')[0];
@@ -331,6 +347,8 @@ webui.SideBarView = function(mainView) {
             self.mainView.workspaceView.update("stage");
         });
     }
+   
+
 
     var remoteElement = $("#sidebar-remote h4", self.element);
     remoteElement.click(function (event) {
@@ -342,6 +360,23 @@ webui.SideBarView = function(mainView) {
     self.fetchSection($("#sidebar-local-branches", self.element)[0], "Local Branches", "local-branches", "branch");
     self.fetchSection($("#sidebar-remote-branches", self.element)[0], "Remote Branches", "remote-branches", "branch --remotes");
     self.fetchSection($("#sidebar-tags", self.element)[0], "Tags", "tags", "tag");
+
+    //PAB try an accordion
+    //$("#sidebar-content", self.element).accordion({collapsible: true, active: false}); 
+ 
+    //PAB Find the GitPatcher label in self, and display the new gitpatcher view.
+    var gitPatcherElement = $("#sidebar-gitpatcher h4", self.element);
+    gitPatcherElement.click(function(event){
+        $("*", self.element).removeClass("active");
+        $(gitPatcherElement).addClass("active");
+        self.mainView.gitPatcherView.update();
+        //PAB Find the GitPatcher label in self, and a click function to show the gitpatcher modal.
+        //$("#gitpatcher-modal").modal('show');
+        
+    });
+
+
+
 };
 
 /*
@@ -1644,6 +1679,8 @@ webui.CommitMessageView = function(workspaceView) {
                 textArea.value = data;
             });
         }
+        //PAB Seems like Ammend should also load up the files from the previous commit??
+        //into the staging area
     };
 
     self.onCommit = function() {
@@ -1679,9 +1716,10 @@ webui.CommitMessageView = function(workspaceView) {
                             '<textarea></textarea>' +
                         '</div>')[0];
     var textArea = $("textarea", self.element)[0];
-    var amend = $(".commit-message-amend", self.element);
-    amend.click(self.onAmend);
-    $(".commit-message-commit", self.element).click(self.onCommit);
+    var amendBut = $(".commit-message-amend", self.element);
+    amendBut.click(self.onAmend);
+    var commitBut = $(".commit-message-commit", self.element);
+    commitBut.click(self.onCommit);
 };
 
 webui.RemoteView = function(mainView) {
@@ -1710,9 +1748,37 @@ webui.RemoteView = function(mainView) {
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
 };
 
+
+webui.GitPatcherView = function(mainView) {
+
+    var self = this;
+
+    self.show = function() {
+        mainView.switchTo(self.element);
+    };
+
+    self.update = function() {
+        self.show();
+    };
+
+    self.element = $(   '<div class="jumbotron">' +
+                            '<h1>GitPatcher</h1>' +
+                            '<p>Git webui allows other people to clone and pull from your repository.</p>' +
+                            '<div class="git-access">' +
+                                '<p>Other people can clone your repository:</p>' +
+                                '<pre class="git-clone"></pre>' +
+                                '<p>Or to pull from your repository:</p>' +
+                                '<pre class="git-pull"></pre>' +
+                            '</div>' +
+                        '</div>')[0];
+    $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
+    $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
+};
+
 /*
  *  == Initialization =========================================================
  */
+//PAB construct an object "MainUi" 
 function MainUi() {
 
     var self = this;
@@ -1722,9 +1788,11 @@ function MainUi() {
         self.mainView.appendChild(element);
     }
 
+    //PAB get the current dir
     $.get("/dirname", function (data) {
         webui.repo = data;
         var title = $("title")[0];
+        //PAB Set the Title on the web broswer
         title.textContent = "Git - " + webui.repo;
         $.get("/viewonly", function (data) {
             webui.viewonly = data == "1";
@@ -1743,6 +1811,9 @@ function MainUi() {
 
                 self.historyView = new webui.HistoryView(self);
                 self.remoteView = new webui.RemoteView(self);
+                self.gitPatcherView = new webui.GitPatcherView(self);
+                
+                //PAB if not readonly then create the workspace
                 if (!webui.viewonly) {
                     self.workspaceView = new webui.WorkspaceView(self);
                 }
