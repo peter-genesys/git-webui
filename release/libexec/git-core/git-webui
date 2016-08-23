@@ -96,7 +96,8 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             path += '/'
         return path
 
-
+    #PAB called by jquery $.get in git-webui.js  
+    #self.send_text returns the result status and result data 
     def do_GET(self):
         if self.path.startswith("/git/cat-file/"):
             obj = self.path[14:]
@@ -114,7 +115,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
         else:
             SimpleHTTPRequestHandler.do_GET(self)
 
-
+    #PAB called by jquery $.post in git-webui.js 
     def do_POST(self):
         if self.path == "/git":
             content_length = int(self.headers["Content-Length"])
@@ -323,6 +324,7 @@ if __name__ == '__main__':
                 sys.stderr.write("Port {} is already in use, trying another one\n".format(port))
                 port += 1
 
+    #PAB Serving at http://localhost:8000 
     url = "http://{}:{}".format(host if host else "localhost", port)
     print("Serving at {}".format(url))
     nobrowser = get_setting_boolean(args, "nobrowser");

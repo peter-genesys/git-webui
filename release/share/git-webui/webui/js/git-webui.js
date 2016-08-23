@@ -58,7 +58,60 @@ webui.showWarning = function(message) {
         '</div>').appendTo(messageBox);
 }
 
-//PAB methof to launch a git command
+//PAB attempt to contact db via sqlplus and show a result.
+webui.sqlplus = function(query) {
+    //PAB jquery $.post calls the do_POST routine in python git-webui 
+    //http://api.jquery.com/jQuery.post/
+    $.post("sqlplus", query, function(data, status, xhr) {
+        if (xhr.status == 200) {
+            $(".sqlplus_result").html(data); //PAB write the result data to display item.
+            // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
+            ////var footers = {};
+            ////var fIndex = data.length;
+            ////while (true) {
+            ////    var oldFIndex = fIndex;
+            ////    var fIndex = data.lastIndexOf("\r\n", fIndex - 1);
+            ////    var line = data.substring(fIndex + 2, oldFIndex);
+            ////    if (line.length > 0) {
+            ////        var footer = line.split(": ");
+            ////        footers[footer[0]] = footer[1];
+            ////    } else {
+            ////        break;
+            ////    }
+            ////}
+            ////
+            ////var messageStartIndex = fIndex - parseInt(footers["Git-Stderr-Length"]);
+            ////var message = data.substring(messageStartIndex, fIndex);
+            ////var output = data.substring(0, messageStartIndex);
+            ////var rcode = parseInt(footers["Git-Return-Code"]);
+            ////if (rcode == 0) {
+            ////    if (callback) {
+            ////        callback(output);
+            ////    }
+            ////    // Return code is 0 but there is stderr output: this is a warning message
+            ////    if (message.length > 0) {
+            ////        console.log(message);
+            ////        webui.showWarning(message);
+            ////    }
+            ////    $("#error-modal .alert").text("");
+            ////} else {
+            ////    console.log(message);
+            ////    webui.showError(message);
+            ////}
+        } else {
+            console.log(data);
+            webui.showError(data);
+        }
+    }, "text")
+    .fail(function(xhr, status, error) {
+        webui.showError("SQLplus Error");
+    });
+};
+
+
+
+
+//PAB method to launch a git command
 webui.git = function(cmd, arg1, arg2) {
     // cmd = git command line arguments
     // other arguments = optional stdin content and a callback function:
@@ -72,6 +125,8 @@ webui.git = function(cmd, arg1, arg2) {
         cmd += "\n" + arg1;
         var callback = arg2;
     }
+    //PAB jquery $.post calls the do_POST routine in python git-webui 
+    //http://api.jquery.com/jQuery.post/
     $.post("git", cmd, function(data, status, xhr) {
         if (xhr.status == 200) {
             // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
@@ -1788,8 +1843,11 @@ function MainUi() {
         self.mainView.appendChild(element);
     }
 
-    //PAB get the current dir
-    $.get("/dirname", function (data) {
+    //PAB jquery $.get calls the do_GET routine in python git-webui 
+    //http://api.jquery.com/jQuery.get/
+    //    data is the response
+    //    function (data) is the callback that processes the response.
+    $.get("/dirname", function (data) { // get the current dir
         webui.repo = data;
         var title = $("title")[0];
         //PAB Set the Title on the web broswer
