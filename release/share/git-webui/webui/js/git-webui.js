@@ -426,21 +426,22 @@ webui.SideBarView = function(mainView) {
     //PAB Find the GitPatcher label in self, and display the new gitpatcher view.
     var gitPatcherElement = $("#sidebar-gitpatcher h4", self.element);
     gitPatcherElement.click(function(event){
+        //PAB highlight the button
         $("*", self.element).removeClass("active");
         $(gitPatcherElement).addClass("active");
+        //PAB Display the view
         self.mainView.gitPatcherView.update();
-        //PAB Find the GitPatcher label in self, and a click function to show the gitpatcher modal.
-        //$("#gitpatcher-modal").modal('show');
+  
         
     });
 
     //PAB Find the GitPatcher Readme label in self, and display the modal
     var gitPatcherReadmeElement = $("#sidebar-GPreadme h4", self.element);
     gitPatcherReadmeElement.click(function(event){
+        //PAB highlight the button
         $("*", self.element).removeClass("active");
         $(gitPatcherReadmeElement).addClass("active");
-        //self.mainView.gitPatcherView.update();
-        //PAB Find the GitPatcher label in self, and a click function to show the gitpatcher modal.
+        //PAB Display the modal
         $("#gitpatcher-modal").modal('show');
         
     });
@@ -1840,9 +1841,17 @@ webui.GitPatcherView = function(mainView) {
                                 '<p>Or to pull from your repository:</p>' +
                                 '<pre class="git-pull"></pre>' +
                             '</div>' +
+                            '<div><p class="sqlplus">SQLplus</p></div>' +
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
+    //PAB add the callback to call make the post.
+    $(".sqlplus", self.element).click(function(){
+       webui.sqlplus("dummy");
+       $(this).fadeOut('fast');
+
+     });
+
 };
 
 /*
