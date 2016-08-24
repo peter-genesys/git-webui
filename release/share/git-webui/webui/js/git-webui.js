@@ -1841,7 +1841,8 @@ webui.GitPatcherView = function(mainView) {
                                 '<p>Or to pull from your repository:</p>' +
                                 '<pre class="git-pull"></pre>' +
                             '</div>' +
-                            '<div><p class="sqlplus">SQLplus</p></div>' +
+                            '<div><p class="sqlplus">SQLplus</p></div>' + //PAB This is the button.
+                            '<div><p class="sqlplus_result"></p></div>' + //PAB Result will display here - hopefully.
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");

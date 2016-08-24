@@ -138,7 +138,17 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
 
         elif self.path == "/sqlplus":   
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:
-              file.write("Hello!")
+              content_length = int(self.headers["Content-Length"])
+              content = self.rfile.read(content_length)
+              file.write(content)
+              self.send_response(200)
+
+        elif self.path == "/writefile":   
+            with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:
+              content_length = int(self.headers["Content-Length"])
+              content = self.rfile.read(content_length)
+              file.write(content)
+              self.send_response(200)
 
         elif self.is_git_request():
             self.process_http_backend();
