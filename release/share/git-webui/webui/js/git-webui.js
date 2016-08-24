@@ -384,9 +384,13 @@ webui.SideBarView = function(mainView) {
                                 //PAB This is a launcher for GitPatcher
                                 '<section id="sidebar-gitpatcher">' +
                                     '<h4>' + 
-
                                     '<img src="/img/GitPatcher.png" style="height:24px;" hspace="8">' +
                                     'GitPatcher' +
+                                    '</h4>' +
+                                '</section>' +
+                                '<section id="sidebar-GPreadme">' +
+                                    '<h4>' + 
+                                    'GitPatcher Readme' +
                                     '</h4>' +
                                 '</section>' +
                             '</div>' +
@@ -427,6 +431,17 @@ webui.SideBarView = function(mainView) {
         self.mainView.gitPatcherView.update();
         //PAB Find the GitPatcher label in self, and a click function to show the gitpatcher modal.
         //$("#gitpatcher-modal").modal('show');
+        
+    });
+
+    //PAB Find the GitPatcher Readme label in self, and display the modal
+    var gitPatcherReadmeElement = $("#sidebar-GPreadme h4", self.element);
+    gitPatcherReadmeElement.click(function(event){
+        $("*", self.element).removeClass("active");
+        $(gitPatcherReadmeElement).addClass("active");
+        //self.mainView.gitPatcherView.update();
+        //PAB Find the GitPatcher label in self, and a click function to show the gitpatcher modal.
+        $("#gitpatcher-modal").modal('show');
         
     });
 

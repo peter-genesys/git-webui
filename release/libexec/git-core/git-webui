@@ -25,6 +25,7 @@ import socket
 import subprocess
 import sys
 import webbrowser
+import io
 
 if sys.version > '3':
     from http.server import SimpleHTTPRequestHandler, HTTPServer
@@ -134,6 +135,11 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 self.process(cmd, stdin, True, True)
             else:
                 self.send_error(403)
+
+        elif self.path == "/sqlplus":   
+            with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:
+              file.write("Hello!")
+
         elif self.is_git_request():
             self.process_http_backend();
         else:
