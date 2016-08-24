@@ -26,6 +26,7 @@ import subprocess
 import sys
 import webbrowser
 import io
+from subprocess import Popen, PIPE
 
 if sys.version > '3':
     from http.server import SimpleHTTPRequestHandler, HTTPServer
@@ -97,6 +98,15 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             path += '/'
         return path
 
+
+
+    def runSQLplus(self, sqlCommand, connectString):
+        #PAB sqlCmmand is "@scriptname.sql" or "select count(*) from jobs;
+        session = Popen(['sqlplus', '-S', connectString], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        session.stdin.write(sqlCommand)
+        #session.stdin.write("exit;")
+        return session.communicate()
+
     #PAB called by jquery $.get in git-webui.js  
     #self.send_text returns the result status and result data 
     def do_GET(self):
@@ -136,11 +146,19 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             else:
                 self.send_error(403)
 
-        elif self.path == "/sqlplus":   
-            with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:
-              content_length = int(self.headers["Content-Length"])
-              content = self.rfile.read(content_length)
-              file.write(content)
+        elif self.path == "/sqlplus": 
+
+            connectString = 'public_apps/public_apps@VM_DEV'
+            sqlCommand = b'select 1 from dual;'
+            queryResult, errorMessage = self.runSQLplus(sqlCommand, connectString)
+
+            with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
+       
+              #content_length = int(self.headers["Content-Length"])
+              #content = self.rfile.read(content_length)
+              file.write(queryResult + errorMessage)
+ 
+              self.wfile.write(queryResult + errorMessage)
               self.send_response(200)
 
         elif self.path == "/writefile":   
