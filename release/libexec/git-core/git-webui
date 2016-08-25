@@ -100,8 +100,12 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
 
 
 
-    def runSQLplus(self, sqlCommand, connectString):
+    def runSQLplus(self, path, sqlCommand, connectString):
         #PAB sqlCmmand is "@scriptname.sql" or "select count(*) from jobs;
+
+        #Change the local dir to the location of the script
+        os.chdir(path)
+        
         session = Popen(['sqlplus', '-S', connectString], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         session.stdin.write(sqlCommand)
         #session.stdin.write("exit;")
@@ -149,16 +153,20 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
         elif self.path == "/sqlplus": 
 
             connectString = 'public_apps/public_apps@VM_DEV'
-            sqlCommand = b'select 1 from dual;'
-            queryResult, errorMessage = self.runSQLplus(sqlCommand, connectString)
+            #sqlCommand = b'select 1 from dual;'
+            #sqlCommand = b'@do.sql'
+            sqlCommand = b'@install.sql'
+            path       = '/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/QA02/APEX_APP_125'
+            queryResult, errorMessage = self.runSQLplus(path, sqlCommand, connectString)
 
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
        
               #content_length = int(self.headers["Content-Length"])
               #content = self.rfile.read(content_length)
               file.write(queryResult + errorMessage)
- 
+           
               self.wfile.write(queryResult + errorMessage)
+              #self.wfile.write(queryResult + errorMessage)
               self.send_response(200)
 
         elif self.path == "/writefile":   

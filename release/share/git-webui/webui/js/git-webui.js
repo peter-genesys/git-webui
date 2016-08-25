@@ -64,6 +64,10 @@ webui.sqlplus = function(query) {
     //http://api.jquery.com/jQuery.post/
     $.post("sqlplus", query, function(data, status, xhr) {
         if (xhr.status == 200) {
+            
+            $("#sqlplus-output").html(data);
+            $("#sqlplus-modal").modal('show');
+
             $(".sqlplus_result").html(data); //PAB write the result data to display item.
             // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
             ////var footers = {};
@@ -1842,14 +1846,16 @@ webui.GitPatcherView = function(mainView) {
                                 '<pre class="git-pull"></pre>' +
                             '</div>' +
                             '<div><p class="sqlplus">SQLplus</p></div>' + //PAB This is the button.
-                            '<div><p class="sqlplus_result"></p></div>' + //PAB Result will display here - hopefully.
+                            '<div><p class="sqlplus_result"></p></div>' + //PAB Result displays here 
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
     //PAB add the callback to call make the post.
     $(".sqlplus", self.element).click(function(){
        webui.sqlplus("dummy");
-       $(this).fadeOut('fast');
+       $(this).fadeOut('slow');
+       $(this).fadeIn('slow');
+       
 
      });
 
