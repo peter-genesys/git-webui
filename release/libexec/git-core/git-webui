@@ -26,8 +26,7 @@ import subprocess
 import sys
 import webbrowser
 import io
-from subprocess import Popen, PIPE
-
+ 
 if sys.version > '3':
     from http.server import SimpleHTTPRequestHandler, HTTPServer
     from urllib.parse import unquote, urlparse
@@ -44,9 +43,67 @@ IS_WINDOWS = platform.system() == "Windows"
 
 allowed_hosts =  ["127.0.0.1", "localhost"]
 
+# ipopen.py
+#IMPORTS FOR IPopen
+#import os
+import time
+import fcntl
+import subprocess
+from subprocess import Popen, PIPE
+ 
+class IPopen(subprocess.Popen):
 
+    POLL_INTERVAL = 0.1
+    def __init__(self, *args, **kwargs):
+        """Construct interactive Popen."""
+        keyword_args = {
+            'stdin' : subprocess.PIPE,
+            'stdout': subprocess.PIPE,
+            'stderr': subprocess.PIPE,
+            'prompt': '> ',
+        }
+        keyword_args.update(kwargs)
+        self.prompt = keyword_args.get('prompt')
+        del keyword_args['prompt']
+        subprocess.Popen.__init__(self, *args, **keyword_args)
+        # Make stderr and stdout non-blocking.
+        for outfile in (self.stdout, self.stderr):
+            if outfile is not None:
+                fd = outfile.fileno()
+                fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+                fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
+    def correspond(self, text, sleep=POLL_INTERVAL):
+        """Communicate with the child process without closing stdin."""
+        print "STDIN:" + text
+        #print "Waiting for "+self.prompt
+        self.stdin.write(text+'\n')
+        self.stdin.flush()
+        str_buffer = ''
+        lines = ''
+        askUser = True
 
+        #Loop has 2 terminators
+        #1. the prompt is found
+        #2. EOF is found
+        while not str_buffer.endswith(self.prompt):
+            try:
+                lines = self.stdout.read()
+                if lines == "" : 
+                    #EOF 
+                    askUser = False
+                    break
+                str_buffer += lines
+                ##print str_buffer
+            except IOError:
+                time.sleep(sleep)
+ 
+        #Send back the answer in a dictionary
+        #Neat cos we can just keep adding values.
+        return { 'output' : str_buffer
+               , 'ask'    : askUser }
+
+ 
 class WebUiHttpServer(HTTPServer):
     def __init__(self, server_address, RequestHandlerClass, bind_and_activate = True):
         if not isinstance(server_address, tuple) or len(server_address) < 2:
@@ -67,6 +124,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
 
     WEB_ROOT = None
     REPO_ROOT = None
+    SQLSESSIONS = []
 
     @classmethod
     def initialize(cls, repo_root):
@@ -99,6 +157,36 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
         return path
 
 
+    def startSQLplusI(self, path, sqlCommand, connectString):
+        #PAB sqlCmmand is "@scriptname.sql" or "select count(*) from jobs;
+        errorMessage = ""
+        try :
+            #Change the local dir to the location of the script
+            os.chdir(path)
+            #start interactive sqlplus session
+            sqlsession = IPopen(['sqlplus', '-S', connectString], prompt=': ')
+            sqlsession.stdin.write(sqlCommand)
+     
+        except Exception as ex:
+            errorMessage = "Unexpected error:{} {}".format(ex.errno, ex.strerror) 
+     
+        #return { 'session'  : sqlsession
+        #       , 'error'    : errorMessage }
+
+        return sqlsession, errorMessage  
+    
+    
+    def contSQLplusI(self, sqlsession,ans):
+     
+        errorMessage = ""
+        try :
+            feedback = sqlsession.correspond(ans)
+        except Exception as ex:
+            errorMessage = "Unexpected error:{} {}".format(ex.errno, ex.strerror) 
+    
+        #return { 'feedback' : feedback
+        #       , 'error'    : errorMessage }
+        return feedback, errorMessage  
 
     def runSQLplus(self, path, sqlCommand, connectString):
         #PAB sqlCmmand is "@scriptname.sql" or "select count(*) from jobs;
@@ -108,8 +196,32 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
         
         session = Popen(['sqlplus', '-S', connectString], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         session.stdin.write(sqlCommand)
-        #session.stdin.write("exit;")
         return session.communicate()
+
+
+    def runSQLplusInteractive(self, path, sqlCommand, connectString):
+        #PAB sqlCmmand is "@scriptname.sql" or "select count(*) from jobs;
+
+        #Change the local dir to the location of the script
+        os.chdir(path)
+        
+        ##NORMAL WAY
+        ##session = Popen(['sqlplus', '-S', connectString], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        ##session.stdin.write(sqlCommand)
+        #session.stdin.write("exit;")
+        ##return session.communicate()
+
+        ##NEW WAY
+        #talk interactively with sqlplus
+        sqlsession = IPopen(['sqlplus', '-S', connectString], prompt=':')
+        sqlsession.stdin.write(sqlCommand)
+
+        result = sqlsession.correspond('')
+        result += sqlsession.correspond('PETER\n')
+        result = sqlsession.correspond('')
+        return result
+
+
 
     #PAB called by jquery $.get in git-webui.js  
     #self.send_text returns the result status and result data 
@@ -159,16 +271,57 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             path       = '/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/QA02/APEX_APP_125'
             queryResult, errorMessage = self.runSQLplus(path, sqlCommand, connectString)
 
+            #Open a file to write
+            with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
+                file.write(queryResult + errorMessage)
+           
+            self.wfile.write(queryResult)
+            self.send_response(200)
+ 
+        elif self.path == "/startSQLplusI": #Start an SQLplus interactive process
+
+            connectString = 'public_apps/public_apps@VM_DEV'
+            sqlCommand = b'@select_me.sql'
+            path       = '/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance'
+            ans        = ''
+
+            sqlsession, errorMessage = self.startSQLplusI(path, sqlCommand, connectString)
+ 
+            if errorMessage :
+                #Error starting session, send it back to client
+                self.wfile.write(errorMessage)
+                self.send_response(200)    
+
+            else:
+                #Find the first question, if any.
+                feedback, errorMessage = self.contSQLplusI(sqlsession,ans)
+
+                with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
+                    #content_length = int(self.headers["Content-Length"])
+                    #content = self.rfile.read(content_length)
+                    file.write(feedback['output'] + errorMessage)
+           
+                self.wfile.write(feedback['output'] + errorMessage)
+                self.send_response(200)
+
+ 
+        elif self.path == "/sqlplusContI":  #Continue an interactive SQLplus Session
+
+            connectString = 'public_apps/public_apps@VM_DEV'
+            sqlCommand = b'@do.sql'
+            path       = '/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance'
+            queryResult, errorMessage = self.runSQLplusInteractive(path, sqlCommand, connectString)
+
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
        
               #content_length = int(self.headers["Content-Length"])
               #content = self.rfile.read(content_length)
               file.write(queryResult + errorMessage)
            
-              self.wfile.write(queryResult + errorMessage)
-              #self.wfile.write(queryResult + errorMessage)
-              self.send_response(200)
-
+            self.wfile.write(queryResult + errorMessage)
+            #self.wfile.write(queryResult + errorMessage)
+            self.send_response(200)
+ 
         elif self.path == "/writefile":   
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:
               content_length = int(self.headers["Content-Length"])

@@ -62,7 +62,29 @@ webui.showWarning = function(message) {
 webui.sqlplus = function(query) {
     //PAB jquery $.post calls the do_POST routine in python git-webui 
     //http://api.jquery.com/jQuery.post/
-    $.post("sqlplus", query, function(data, status, xhr) {
+    $.post("sqlplus", query, function(data, status, xhr) { //Calls orig routine
+        if (xhr.status == 200) {
+            
+            $("#sqlplus-output").html(data);
+            $("#sqlplus-modal").modal('show');
+    
+            $(".sqlplus_result").html(data); //PAB write the result data to display item.
+    
+        } else {
+            console.log(data);
+            webui.showError(data);
+        }
+    }, "text")
+    .fail(function(xhr, status, error) {
+        webui.showError("SQLplus Error");
+    });
+
+};
+
+//PAB attempt to contact db via sqlplus and show a result.
+webui.sqlplusI = function(query) {
+
+    $.post("startSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
             $("#sqlplus-output").html(data);
@@ -108,11 +130,9 @@ webui.sqlplus = function(query) {
         }
     }, "text")
     .fail(function(xhr, status, error) {
-        webui.showError("SQLplus Error");
+        webui.showError("SQLplus Error: " + error);
     });
 };
-
-
 
 
 //PAB method to launch a git command
@@ -1847,6 +1867,7 @@ webui.GitPatcherView = function(mainView) {
                             '</div>' +
                             '<div><p class="sqlplus">SQLplus</p></div>' + //PAB This is the button.
                             '<div><p class="sqlplus_result"></p></div>' + //PAB Result displays here 
+                            '<div><p class="sqlplusi">SQLplusI</p></div>' + //PAB This is the button.
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
@@ -1855,8 +1876,11 @@ webui.GitPatcherView = function(mainView) {
        webui.sqlplus("dummy");
        $(this).fadeOut('slow');
        $(this).fadeIn('slow');
-       
-
+     });
+    $(".sqlplusi", self.element).click(function(){
+       webui.sqlplusI("dummy");
+       $(this).fadeOut('slow');
+       $(this).fadeIn('slow');
      });
 
 };
