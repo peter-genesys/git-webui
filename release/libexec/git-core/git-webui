@@ -286,6 +286,10 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             ans        = ''
 
             sqlsession, errorMessage = self.startSQLplusI(path, sqlCommand, connectString)
+            
+            sessionId = len(self.SQLSESSIONS)
+            self.SQLSESSIONS.append(sqlsession) #Populating self.SQLSESSIONS[sessionId]
+            print "Created Session: {}".format(sessionId)
  
             if errorMessage :
                 #Error starting session, send it back to client
@@ -297,30 +301,26 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 feedback, errorMessage = self.contSQLplusI(sqlsession,ans)
 
                 with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
-                    #content_length = int(self.headers["Content-Length"])
-                    #content = self.rfile.read(content_length)
                     file.write(feedback['output'] + errorMessage)
            
                 self.wfile.write(feedback['output'] + errorMessage)
                 self.send_response(200)
 
  
-        elif self.path == "/sqlplusContI":  #Continue an interactive SQLplus Session
-
-            connectString = 'public_apps/public_apps@VM_DEV'
-            sqlCommand = b'@do.sql'
-            path       = '/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance'
-            queryResult, errorMessage = self.runSQLplusInteractive(path, sqlCommand, connectString)
+        elif self.path == "/contSQLplusI":  #Continue an interactive SQLplus Session
+            sessionId = 0
+            ans       = 'X'
+            print "Reconnecting to Session: {}".format(sessionId)
+            sqlsession = self.SQLSESSIONS[sessionId]
+            #Find the first question, if any.
+            feedback, errorMessage = self.contSQLplusI(sqlsession,ans)
 
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
-       
-              #content_length = int(self.headers["Content-Length"])
-              #content = self.rfile.read(content_length)
-              file.write(queryResult + errorMessage)
+                file.write(feedback['output'] + errorMessage)
            
-            self.wfile.write(queryResult + errorMessage)
-            #self.wfile.write(queryResult + errorMessage)
+            self.wfile.write(feedback['output'] + errorMessage)
             self.send_response(200)
+ 
  
         elif self.path == "/writefile":   
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/foobar.txt", "w") as file:

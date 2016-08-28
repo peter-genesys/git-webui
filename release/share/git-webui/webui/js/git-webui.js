@@ -82,7 +82,7 @@ webui.sqlplus = function(query) {
 };
 
 //PAB attempt to contact db via sqlplus and show a result.
-webui.sqlplusI = function(query) {
+webui.startsqlplusI = function(query) {
 
     $.post("startSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
@@ -133,8 +133,25 @@ webui.sqlplusI = function(query) {
         webui.showError("SQLplus Error: " + error);
     });
 };
+//PAB attempt to contact db via sqlplus and show a result.
+webui.contsqlplusI = function(query) {
 
+    $.post("contSQLplusI", query, function(data, status, xhr) { //Calls new routine
+        if (xhr.status == 200) {
+            
+            $("#sqlplus-output").html(data);
+            $("#sqlplus-modal").modal('show');
 
+ 
+        } else {
+            console.log(data);
+            webui.showError(data);
+        }
+    }, "text")
+    .fail(function(xhr, status, error) {
+        webui.showError("SQLplus Error: " + error);
+    });
+};
 //PAB method to launch a git command
 webui.git = function(cmd, arg1, arg2) {
     // cmd = git command line arguments
@@ -1867,7 +1884,8 @@ webui.GitPatcherView = function(mainView) {
                             '</div>' +
                             '<div><p class="sqlplus">SQLplus</p></div>' + //PAB This is the button.
                             '<div><p class="sqlplus_result"></p></div>' + //PAB Result displays here 
-                            '<div><p class="sqlplusi">SQLplusI</p></div>' + //PAB This is the button.
+                            '<div><p class="startsqlplusi">startSQLplusI</p></div>' + //PAB This is the button.
+                            '<div><p class="contsqlplusi">contSQLplusI</p></div>' + //PAB This is the button.
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
@@ -1877,8 +1895,13 @@ webui.GitPatcherView = function(mainView) {
        $(this).fadeOut('slow');
        $(this).fadeIn('slow');
      });
-    $(".sqlplusi", self.element).click(function(){
-       webui.sqlplusI("dummy");
+    $(".startsqlplusi", self.element).click(function(){
+       webui.startsqlplusI("dummy");
+       $(this).fadeOut('slow');
+       $(this).fadeIn('slow');
+     });
+    $(".contsqlplusi", self.element).click(function(){
+       webui.contsqlplusI("dummy");
        $(this).fadeOut('slow');
        $(this).fadeIn('slow');
      });
