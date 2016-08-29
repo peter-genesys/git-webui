@@ -82,7 +82,7 @@ webui.sqlplus = function(query) {
 };
 
 
-webui.getResponse = function(data) {
+webui.cleanResponse = function(data) {
     var delimiter = '\n',
         start     = 0,
         lines     = data.split(delimiter),
@@ -108,13 +108,15 @@ webui.startsqlplusI = function(query) {
             //
             //    var responseObj = JSON.parse(response);
 
-            var responseObj = webui.getResponse(data);
+            var responseObj = webui.cleanResponse(data);
             $("#sqlplus-output").html(responseObj.output);
+            $("#sqlplus-lastline").html(responseObj.lastLine);
 
             //$("#sqlplus-output").html(data);
             $("#sqlplus-modal").modal('show');
 
             $(".sqlplus_result").html(responseObj.output); //PAB write the result data to display item.
+       
 
         
 
@@ -167,8 +169,9 @@ webui.contsqlplusI = function(query) {
     $.post("contSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
-            var responseObj = webui.getResponse(data);
+            var responseObj = webui.cleanResponse(data);
             $("#sqlplus-output").html(responseObj.output);
+            $("#sqlplus-lastline").html(responseObj.lastLine);
             //$("#sqlplus-output").html(data);
             $("#sqlplus-modal").modal('show');
 
