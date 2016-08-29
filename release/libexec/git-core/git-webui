@@ -26,6 +26,7 @@ import subprocess
 import sys
 import webbrowser
 import io
+import json
  
 if sys.version > '3':
     from http.server import SimpleHTTPRequestHandler, HTTPServer
@@ -100,8 +101,21 @@ class IPopen(subprocess.Popen):
  
         #Send back the answer in a dictionary
         #Neat cos we can just keep adding values.
-        return { 'output' : str_buffer
-               , 'ask'    : askUser }
+
+        strings = str_buffer.split('\n')
+        lastLine = strings[-1]
+        
+        #todo - later use regex to determine that lastLine says 
+        #"Enter value for me: "  and return "me" as the placeholder
+        #But for now just cheat
+        placeholder = ""
+        if lastLine[0:16] == "Enter value for " : 
+            placeholder = lastLine[16:-2]
+ 
+        return { 'output'   : str_buffer
+               , 'ask'      : askUser 
+               , 'lastLine' : lastLine
+               , 'placeholder' : placeholder }
 
  
 class WebUiHttpServer(HTTPServer):
@@ -303,7 +317,14 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
                     file.write(feedback['output'] + errorMessage)
            
-                self.wfile.write(feedback['output'] + errorMessage)
+                #self.wfile.write(feedback['output'] + errorMessage) #temporarilly replace this.
+
+                #response = json.dumps({'output': feedback['output']
+                #                      ,'error' : errorMessage
+                #                      })
+
+                response = json.dumps(feedback)
+                self.wfile.write(response)
                 self.send_response(200)
 
  
@@ -318,7 +339,8 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
                 file.write(feedback['output'] + errorMessage)
            
-            self.wfile.write(feedback['output'] + errorMessage)
+            response = json.dumps(feedback)
+            self.wfile.write(response)
             self.send_response(200)
  
  

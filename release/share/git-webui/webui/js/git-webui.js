@@ -91,6 +91,10 @@ webui.startsqlplusI = function(query) {
             $("#sqlplus-modal").modal('show');
 
             $(".sqlplus_result").html(data); //PAB write the result data to display item.
+
+        
+
+
             // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
             ////var footers = {};
             ////var fIndex = data.length;
