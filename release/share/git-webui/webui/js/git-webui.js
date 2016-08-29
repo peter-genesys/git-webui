@@ -81,16 +81,40 @@ webui.sqlplus = function(query) {
 
 };
 
+
+webui.getResponse = function(data) {
+    var delimiter = '\n',
+        start     = 0,
+        lines     = data.split(delimiter),
+        lineCount = lines.length,
+        responseLines  = lines.slice(start,lineCount-4),
+        response  = responseLines.join(delimiter);
+ 
+    return JSON.parse(response);                
+};
+
 //PAB attempt to contact db via sqlplus and show a result.
 webui.startsqlplusI = function(query) {
 
     $.post("startSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
-            
-            $("#sqlplus-output").html(data);
+
+            //var delimiter = '\n',
+            //    start     = 0,
+            //    lines     = data.split(delimiter),
+            //    lineCount = lines.length,
+            //    responseLines  = lines.slice(start,lineCount-4),
+            //    response  = responseLines.join(delimiter);
+            //
+            //    var responseObj = JSON.parse(response);
+
+            var responseObj = webui.getResponse(data);
+            $("#sqlplus-output").html(responseObj.output);
+
+            //$("#sqlplus-output").html(data);
             $("#sqlplus-modal").modal('show');
 
-            $(".sqlplus_result").html(data); //PAB write the result data to display item.
+            $(".sqlplus_result").html(responseObj.output); //PAB write the result data to display item.
 
         
 
@@ -143,7 +167,9 @@ webui.contsqlplusI = function(query) {
     $.post("contSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
-            $("#sqlplus-output").html(data);
+            var responseObj = webui.getResponse(data);
+            $("#sqlplus-output").html(responseObj.output);
+            //$("#sqlplus-output").html(data);
             $("#sqlplus-modal").modal('show');
 
  

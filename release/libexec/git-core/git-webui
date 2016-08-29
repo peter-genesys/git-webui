@@ -109,12 +109,12 @@ class IPopen(subprocess.Popen):
         #"Enter value for me: "  and return "me" as the placeholder
         #But for now just cheat
         placeholder = ""
-        if lastLine[0:16] == "Enter value for " : 
-            placeholder = lastLine[16:-2]
+        if lastLine[0:16] == "Enter value for " : #first 16 chars
+            placeholder = lastLine[16:-2]         #chars 17 to 2 from end.
  
-        return { 'output'   : str_buffer
-               , 'ask'      : askUser 
-               , 'lastLine' : lastLine
+        return { 'output'      : str_buffer
+               , 'ask'         : askUser 
+               , 'lastLine'    : lastLine
                , 'placeholder' : placeholder }
 
  
@@ -290,7 +290,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 file.write(queryResult + errorMessage)
            
             self.wfile.write(queryResult)
-            self.send_response(200)
+            self.send_response(200,"OK")
  
         elif self.path == "/startSQLplusI": #Start an SQLplus interactive process
 
@@ -308,7 +308,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             if errorMessage :
                 #Error starting session, send it back to client
                 self.wfile.write(errorMessage)
-                self.send_response(200)    
+                self.send_response(200,"OK")    
 
             else:
                 #Find the first question, if any.
@@ -323,7 +323,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 #                      ,'error' : errorMessage
                 #                      })
 
-                response = json.dumps(feedback)
+                response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
                 self.wfile.write(response)
                 self.send_response(200)
 
@@ -339,7 +339,7 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
                 file.write(feedback['output'] + errorMessage)
            
-            response = json.dumps(feedback)
+            response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
             self.wfile.write(response)
             self.send_response(200)
  
