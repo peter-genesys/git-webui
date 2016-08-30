@@ -99,6 +99,18 @@ webui.displaySQLplus = function(data) {
     $("#sqlplus-output").html(responseObj.output);
     $("#sqlplus-lastline").html(responseObj.lastLine);
     $("#sqlplus-ans").attr('placeholder',responseObj.placeholder);
+
+    if (responseObj.ask){
+        $("#sqlplus-ans").show();
+        $("#sqlplus-next").show();
+        $("#sqlplus-done").hide();
+
+
+    } else {
+        $("#sqlplus-ans").hide();
+        $("#sqlplus-next").hide();
+        $("#sqlplus-done").show();
+    }
  
     $("#sqlplus-modal").modal('show');
  
