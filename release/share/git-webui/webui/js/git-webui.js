@@ -93,67 +93,29 @@ webui.cleanResponse = function(data) {
     return JSON.parse(response);                
 };
 
+webui.displaySQLplus = function(data) {
+
+    var responseObj = webui.cleanResponse(data);
+    $("#sqlplus-output").html(responseObj.output);
+    $("#sqlplus-lastline").html(responseObj.lastLine);
+    $("#sqlplus-ans").attr('placeholder',responseObj.placeholder);
+ 
+    $("#sqlplus-modal").modal('show');
+ 
+    return;                
+};
+
+
 //PAB attempt to contact db via sqlplus and show a result.
 webui.startsqlplusI = function(query) {
 
     $.post("startSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
-
-            //var delimiter = '\n',
-            //    start     = 0,
-            //    lines     = data.split(delimiter),
-            //    lineCount = lines.length,
-            //    responseLines  = lines.slice(start,lineCount-4),
-            //    response  = responseLines.join(delimiter);
-            //
-            //    var responseObj = JSON.parse(response);
-
-            var responseObj = webui.cleanResponse(data);
-            $("#sqlplus-output").html(responseObj.output);
-            $("#sqlplus-lastline").html(responseObj.lastLine);
-
-            //$("#sqlplus-output").html(data);
-            $("#sqlplus-modal").modal('show');
-
-            $(".sqlplus_result").html(responseObj.output); //PAB write the result data to display item.
+ 
+            webui.displaySQLplus(data);
+    
+            //$(".sqlplus_result").html(responseObj.output); //PAB write the result data to display item.
        
-
-        
-
-
-            // Convention : last lines are footer meta data like headers. An empty line marks the start of the footers
-            ////var footers = {};
-            ////var fIndex = data.length;
-            ////while (true) {
-            ////    var oldFIndex = fIndex;
-            ////    var fIndex = data.lastIndexOf("\r\n", fIndex - 1);
-            ////    var line = data.substring(fIndex + 2, oldFIndex);
-            ////    if (line.length > 0) {
-            ////        var footer = line.split(": ");
-            ////        footers[footer[0]] = footer[1];
-            ////    } else {
-            ////        break;
-            ////    }
-            ////}
-            ////
-            ////var messageStartIndex = fIndex - parseInt(footers["Git-Stderr-Length"]);
-            ////var message = data.substring(messageStartIndex, fIndex);
-            ////var output = data.substring(0, messageStartIndex);
-            ////var rcode = parseInt(footers["Git-Return-Code"]);
-            ////if (rcode == 0) {
-            ////    if (callback) {
-            ////        callback(output);
-            ////    }
-            ////    // Return code is 0 but there is stderr output: this is a warning message
-            ////    if (message.length > 0) {
-            ////        console.log(message);
-            ////        webui.showWarning(message);
-            ////    }
-            ////    $("#error-modal .alert").text("");
-            ////} else {
-            ////    console.log(message);
-            ////    webui.showError(message);
-            ////}
         } else {
             console.log(data);
             webui.showError(data);
@@ -169,11 +131,9 @@ webui.contsqlplusI = function(query) {
     $.post("contSQLplusI", query, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
-            var responseObj = webui.cleanResponse(data);
-            $("#sqlplus-output").html(responseObj.output);
-            $("#sqlplus-lastline").html(responseObj.lastLine);
-            //$("#sqlplus-output").html(data);
-            $("#sqlplus-modal").modal('show');
+            webui.displaySQLplus(data);
+
+            //$("#sqlplus-modal").modal('show');
 
  
         } else {
@@ -1933,11 +1893,23 @@ webui.GitPatcherView = function(mainView) {
        $(this).fadeOut('slow');
        $(this).fadeIn('slow');
      });
-    $(".contsqlplusi", self.element).click(function(){
+    //$(".contsqlplusi", self.element).click(function(){
+    //   webui.contsqlplusI("dummy");
+    //   $(this).fadeOut('slow');
+    //   $(this).fadeIn('slow');
+    // });
+
+    $("#sqlplus-next").click(function(){
        webui.contsqlplusI("dummy");
-       $(this).fadeOut('slow');
-       $(this).fadeIn('slow');
+       //$(this).fadeOut('slow');
+       //$(this).fadeIn('slow');
      });
+    $("#sqlplus-done").click(function(){
+      $("#sqlplus-modal").modal('hide'); 
+       //$(this).fadeOut('slow');
+       //$(this).fadeIn('slow');
+     });
+    
 
 };
 
