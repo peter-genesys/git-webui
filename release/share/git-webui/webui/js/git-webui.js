@@ -22,6 +22,9 @@ var webui = webui || {};
 //PAB Add attributes to webui
 webui.repo = "/";
 
+//Create a global to hold the current session
+webui.SQLsession = -1;
+
 //PAB Create an array of colours
 webui.COLORS = ["#ffab1d", "#fd8c25", "#f36e4a", "#fc6148", "#d75ab6", "#b25ade", "#6575ff", "#7b77e9", "#4ea8ec", "#00d0f5", "#4eb94e", "#51af23", "#8b9f1c", "#d0b02f", "#d0853a", "#a4a4a4",
                 "#ffc51f", "#fe982c", "#fd7854", "#ff705f", "#e467c3", "#bd65e9", "#7183ff", "#8985f7", "#55b6ff", "#10dcff", "#51cd51", "#5cba2e", "#9eb22f", "#debe3d", "#e19344", "#b8b8b8",
@@ -96,14 +99,16 @@ webui.cleanResponse = function(data) {
 webui.displaySQLplus = function(data) {
 
     var responseObj = webui.cleanResponse(data);
-    $("#sqlplus-output").html(responseObj.output);
-    $("#sqlplus-lastline").html(responseObj.lastLine);
-    $("#sqlplus-ans").attr('placeholder',responseObj.placeholder);
+    $("#sqlplus-output").html(responseObj.feedback.output);
+    $("#sqlplus-lastline").html(responseObj.feedback.lastLine);
+    $("#sqlplus-ans").attr('placeholder',responseObj.feedback.placeholder);
+    $("#sqlplus-ans").val('');
 
-    if (responseObj.ask){
+    if (responseObj.feedback.ask){
         $("#sqlplus-ans").show();
         $("#sqlplus-next").show();
         $("#sqlplus-done").hide();
+        webui.SQLsession = responseObj.session;
 
 
     } else {
@@ -138,9 +143,12 @@ webui.startsqlplusI = function(query) {
     });
 };
 //PAB attempt to contact db via sqlplus and show a result.
-webui.contsqlplusI = function(query) {
+webui.contsqlplusI = function(ans) {
 
-    $.post("contSQLplusI", query, function(data, status, xhr) { //Calls new routine
+    //requestObj = { 'session' : webui.SQLsession
+    //              ,'answer'  : ans };
+ 
+    $.post("contSQLplusI", ans, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
             webui.displaySQLplus(data);
@@ -1889,8 +1897,8 @@ webui.GitPatcherView = function(mainView) {
                             '</div>' +
                             '<div><p class="sqlplus">SQLplus</p></div>' + //PAB This is the button.
                             '<div><p class="sqlplus_result"></p></div>' + //PAB Result displays here 
-                            '<div><p class="startsqlplusi">startSQLplusI</p></div>' + //PAB This is the button.
-                            '<div><p class="contsqlplusi">contSQLplusI</p></div>' + //PAB This is the button.
+                            '<div><p class="startsqlplusi">SQLplusI</p></div>' + //PAB This is the button.
+                            //'<div><p class="contsqlplusi">contSQLplusI</p></div>' + //PAB This is the button.
                         '</div>')[0];
     $(".git-clone", self.element).text("git clone http://" + webui.hostname + ":" + document.location.port + "/ " + webui.repo);
     $(".git-pull", self.element).text("git pull http://" + webui.hostname + ":" + document.location.port + "/");
@@ -1912,14 +1920,14 @@ webui.GitPatcherView = function(mainView) {
     // });
 
     $("#sqlplus-next").click(function(){
-       webui.contsqlplusI("dummy");
-       //$(this).fadeOut('slow');
-       //$(this).fadeIn('slow');
+       //Continue same SQLplus session
+       //webui.contsqlplusI( 'YES' );
+       webui.contsqlplusI( $("#sqlplus-ans").val() );
      });
+
     $("#sqlplus-done").click(function(){
+      //SQLplus session finished - close the modal
       $("#sqlplus-modal").modal('hide'); 
-       //$(this).fadeOut('slow');
-       //$(this).fadeIn('slow');
      });
     
 

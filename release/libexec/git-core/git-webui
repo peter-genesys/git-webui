@@ -323,12 +323,23 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
                 #                      ,'error' : errorMessage
                 #                      })
 
-                response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
+                #response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
+                response = json.dumps({'feedback'  : feedback
+                                      ,'sessionId' : sessionId
+                                      ,'error'     : errorMessage
+                                      }) + '\n' #add linefeed to help separate from footers
+ 
                 self.wfile.write(response)
                 self.send_response(200)
 
  
         elif self.path == "/contSQLplusI":  #Continue an interactive SQLplus Session
+
+            #File the data sent.
+            content_length = int(self.headers["Content-Length"])
+            content = self.rfile.read(content_length)
+            print content
+ 
             sessionId = 0
             ans       = 'X'
             print "Reconnecting to Session: {}".format(sessionId)
@@ -339,7 +350,13 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             with io.FileIO("/Users/Peter/NoTimeMachine/GitRepos/AuditMaintenance/sqlplus.log", "w") as file:
                 file.write(feedback['output'] + errorMessage)
            
-            response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
+            #response = json.dumps(feedback) + '\n' #add linefeed to help separate from footers
+
+            response = json.dumps({'feedback'  : feedback
+                                  ,'sessionId' : sessionId
+                                  ,'error'     : errorMessage
+                                  }) + '\n' #add linefeed to help separate from footers
+
             self.wfile.write(response)
             self.send_response(200)
  
