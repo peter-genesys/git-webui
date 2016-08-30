@@ -85,9 +85,9 @@ class IPopen(subprocess.Popen):
         askUser = True
 
         #Loop has 2 terminators
-        #1. the prompt is found
+        #1. the prompt is found (or thr stripped version of the prompt)
         #2. EOF is found
-        while not str_buffer.endswith(self.prompt):
+        while not (str_buffer.endswith(self.prompt) or str_buffer.endswith(self.prompt.strip())):
             try:
                 lines = self.stdout.read()
                 if lines == "" : 
