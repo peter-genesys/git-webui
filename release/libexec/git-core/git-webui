@@ -339,11 +339,13 @@ class WebUiRequestHandler(SimpleHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             content = self.rfile.read(content_length)
             print content
+            requestObj = json.loads(content)  
  
-            sessionId = 0
-            ans       = 'X'
+            sessionId = requestObj["sessionId"]
+            ans       = requestObj["answer"]
             print "Reconnecting to Session: {}".format(sessionId)
             sqlsession = self.SQLSESSIONS[sessionId]
+
             #Find the first question, if any.
             feedback, errorMessage = self.contSQLplusI(sqlsession,ans)
 

@@ -23,7 +23,7 @@ var webui = webui || {};
 webui.repo = "/";
 
 //Create a global to hold the current session
-webui.SQLsession = -1;
+webui.SQLsessionId = -1;
 
 //PAB Create an array of colours
 webui.COLORS = ["#ffab1d", "#fd8c25", "#f36e4a", "#fc6148", "#d75ab6", "#b25ade", "#6575ff", "#7b77e9", "#4ea8ec", "#00d0f5", "#4eb94e", "#51af23", "#8b9f1c", "#d0b02f", "#d0853a", "#a4a4a4",
@@ -92,6 +92,8 @@ webui.cleanResponse = function(data) {
         lineCount = lines.length,
         responseLines  = lines.slice(start,lineCount-4),
         response  = responseLines.join(delimiter);
+        $(".sqlplus_result").html(response)
+        //$("#sqlplus-result").val(response);
  
     return JSON.parse(response);                
 };
@@ -108,7 +110,7 @@ webui.displaySQLplus = function(data) {
         $("#sqlplus-ans").show();
         $("#sqlplus-next").show();
         $("#sqlplus-done").hide();
-        webui.SQLsession = responseObj.session;
+        webui.SQLsessionId = responseObj.sessionId;
 
 
     } else {
@@ -145,10 +147,11 @@ webui.startsqlplusI = function(query) {
 //PAB attempt to contact db via sqlplus and show a result.
 webui.contsqlplusI = function(ans) {
 
-    //requestObj = { 'session' : webui.SQLsession
-    //              ,'answer'  : ans };
+    var requestObj = { 'sessionId' : webui.SQLsessionId
+                      ,'answer'    : ans };
+    var request = JSON.stringify(requestObj);
  
-    $.post("contSQLplusI", ans, function(data, status, xhr) { //Calls new routine
+    $.post("contSQLplusI", request, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
             
             webui.displaySQLplus(data);
