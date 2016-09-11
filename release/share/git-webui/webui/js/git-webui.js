@@ -16,6 +16,8 @@
 
 "use strict"
 
+
+
 //PAB Create an object webui
 var webui = webui || {};
 
@@ -92,7 +94,7 @@ webui.cleanResponse = function(data) {
         lineCount = lines.length,
         responseLines  = lines.slice(start,lineCount-4),
         response  = responseLines.join(delimiter);
-        $(".sqlplus_result").html(response)
+        $(".sqlplus_result").html(response) //Debugging
         //$("#sqlplus-result").val(response);
  
     return JSON.parse(response);                
@@ -1934,6 +1936,21 @@ webui.GitPatcherView = function(mainView) {
      });
     
 
+     // Here's my data model
+     var ViewModel = function(first, last) {
+         this.firstName = ko.observable(first);
+         this.lastName = ko.observable(last);
+      
+         this.fullName = ko.computed(function() {
+             // Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
+             return this.firstName() + " " + this.lastName();
+         }, this);
+     };
+      
+     ko.applyBindings(new ViewModel("Planet", "Mars")); // This makes Knockout get to work
+     
+
+
 };
 
 /*
@@ -1989,3 +2006,5 @@ function MainUi() {
 $(document).ready(function () {
     new MainUi()
 });
+
+
