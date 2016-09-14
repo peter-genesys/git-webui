@@ -450,6 +450,12 @@ webui.SideBarView = function(mainView) {
                                     'GitPatcher' +
                                     '</h4>' +
                                 '</section>' +
+                               //PAB This is a launcher for KO
+                                '<section id="sidebar-ko">' +
+                                    '<h4>' + 
+                                    'Knockout' +
+                                    '</h4>' +
+                                '</section>' +
                                 '<section id="sidebar-GPreadme">' +
                                     '<h4>' + 
                                     'GitPatcher Readme' +
@@ -493,6 +499,18 @@ webui.SideBarView = function(mainView) {
         $(gitPatcherElement).addClass("active");
         //PAB Display the view
         self.mainView.gitPatcherView.update();
+  
+        
+    });
+    
+    //PAB Find the KO label in self, and display the new gitpatcher view.
+    var KOElement = $("#sidebar-ko h4", self.element);
+    KOElement.click(function(event){
+        //PAB highlight the button
+        $("*", self.element).removeClass("active");
+        $(KOElement).addClass("active");
+        //PAB Display the view
+        self.mainView.KOView.update();
   
         
     });
@@ -1921,11 +1939,7 @@ webui.GitPatcherView = function(mainView) {
        $(this).fadeOut('slow');
        $(this).fadeIn('slow');
      });
-    //$(".contsqlplusi", self.element).click(function(){
-    //   webui.contsqlplusI("dummy");
-    //   $(this).fadeOut('slow');
-    //   $(this).fadeIn('slow');
-    // });
+ 
 
     $("#sqlplus-next").click(function(){
        //Continue same SQLplus session
@@ -1938,6 +1952,31 @@ webui.GitPatcherView = function(mainView) {
       $("#sqlplus-modal").modal('hide'); 
      });
     
+ 
+
+};
+
+webui.KOView = function(mainView) {
+
+    var self = this;
+
+    self.show = function() {
+        mainView.switchTo(self.element);
+    };
+
+    self.update = function() {
+        self.show();
+    };
+
+    self.element = $(   '<div class="jumbotron">' +
+                            '<h1>Knockout</h1>' +
+                        '</div>')[0];
+ 
+ 
+    $("#show-ko").click(function(){
+      //raise the ko modal
+      $("#ko-modal").modal('show'); 
+     });
 
      // Here's my data model
      var ViewModel = function(first, last) {
@@ -1996,6 +2035,7 @@ function MainUi() {
                 self.historyView = new webui.HistoryView(self);
                 self.remoteView = new webui.RemoteView(self);
                 self.gitPatcherView = new webui.GitPatcherView(self);
+                self.KOView = new webui.KOView(self);
                 
                 //PAB if not readonly then create the workspace
                 if (!webui.viewonly) {
