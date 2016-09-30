@@ -8,7 +8,8 @@ urls = (
 app = web.application(urls, globals())
 
 
-render = web.template.render('/home/ubuntu/workspace/demo/templates/')
+render = web.template.render('/home/ubuntu/workspace/demo/templates/', base="layout")
+
 
 class Index(object):
     def GET(self):
