@@ -6,7 +6,7 @@ import sys
 #from gothonweb import map
 
 urls = (
-  '/'        , 'RepoList'
+  '/'        , 'Index'
  ,'/repolist', 'RepoList'
 )
 
@@ -14,10 +14,11 @@ app = web.application(urls, globals())
 
 #Start from app.py (python script and go up 2 dirs)
 web_root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
+web.debug(web_root)
 #Then go down 3 dirs - this is the new root that web addresses will be related to.
 #Eg release/share/git-webui/webui/ (css|img|js)
 #web_root = os.path.join(web_root, "share", "git-webui", "webui")
- 
+
 # little hack so that debug mode works with sessions
 #if web.config.get('_session') is None:
 #    store = web.session.DiskStore('sessions')
@@ -27,19 +28,27 @@ web_root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
 #else:
 #    session = web.config._session
 
-render = web.template.render('templates/', base="layout")
+#render = web.template.render('templates/', base="layout")
+
+app_root = os.path.dirname(os.path.dirname(__file__))
+web.debug(app_root)
+render = web.template.render(os.path.join(app_root,'templates/'), globals=globals(), base="layout")
+
+#workaround for missing host details
+def full_url(path):
+    return 'https://'+web.ctx.host+'/'+path
 
 class Index(object):
     def GET(self):
         # this is used to "setup" the session with starting values
         #session.SQLsession = None
-        raise web.seeother('/repolist') #NOT WORKING
+        raise web.seeother(full_url('repolist'))  
 
 
 class RepoList(object):
 
     def GET(self):
-        return render.repo_list() #WORKING
+        return render.repo_list()  
         #if session.room:
         #    return render.repo_list()
         #else:
@@ -53,7 +62,7 @@ class RepoList(object):
         #if session.room and form.action:
         #    session.room = session.room.go(form.action)
 
-        raise web.seeother('/repolist')
+        raise web.seeother(full_url('repolist'))  
 
 if __name__ == "__main__":
     app.run()
