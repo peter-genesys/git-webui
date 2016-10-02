@@ -40,6 +40,8 @@ function Repo(name, path, branch) {
 // Overall viewmodel for this screen, along with initial state
 function ReposViewModel() {
     var self = this;
+    
+    self.currentRepo = ko.observable("Repo1");
  
     // Editable data
     self.repos = ko.observableArray([
@@ -47,6 +49,12 @@ function ReposViewModel() {
        ,new Repo("Repo2", "Repo2path", "master")
        ,new Repo("Repo3", "Repo3path", "master")
     ]);
+    
+    self.test = function() {
+        //self.repos()[1].name("test")
+        self.currentRepo("test")
+    };   
+        
 }
 
 ko.applyBindings(new ReposViewModel());

@@ -9,6 +9,7 @@ import json
 urls = ('/(.*)/'   , 'redirect'   #redirect without trailing /
        ,'/'        , 'Index'
        ,'/repolist', 'RepoList'
+       ,'/test'    , 'TestJquery'
 )
 
 app = web.application(urls, globals())
@@ -96,6 +97,11 @@ class RepoList(object):
             
             seeother('repolist')
 '''
+class TestJquery(object):
+
+    def GET(self):
+        return render.test_jquery()  
+
 
 if __name__ == "__main__":
     app.run()

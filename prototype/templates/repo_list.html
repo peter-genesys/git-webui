@@ -1,5 +1,6 @@
 <h2>RepoList</h2>
 
+<p>Current Repo : <input data-bind="value: currentRepo" /></p>
 <table>
     <thead><tr>
         <th>Repo Name</th><th>Path</th><th>Branch</th><th></th>
@@ -16,12 +17,34 @@
 <button onclick="alert('click');" id="repolist-refresh" class="ui-button ui-widget ui-corner-all">Refresh</button>
 <button onclick="do_click();" id="repolist-refresh2" class="ui-button ui-widget ui-corner-all">Refresh2</button>
 <button id="repolist-refresh3" class="ui-button ui-widget ui-corner-all">Refresh3</button>
+<button data-bind="click: test">test</button>
 
 <div><p id="post-result">Hey</p></div>
 
 <script>
+
+
+
 function do_click(){
     alert("repolist-refresh2 was clicked.");
+    
+    //ReposViewModel.repos()[1].name("Fred");
+    
+ 
+    //$("#post-result").text('Pushed');
+    //gitpatcher.refreshRepoList();
+}
+
+window.onload = function() {
+    if (window.jQuery) {  
+        // jQuery is loaded  
+        alert("Yeah!");
+        //$(".ui-button").text('Pushed');
+    } else {
+        // jQuery is not loaded
+        alert("Doesn't Work");
+    }
+
 }
 </script>
 
