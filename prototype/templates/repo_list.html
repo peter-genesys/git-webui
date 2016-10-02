@@ -23,9 +23,8 @@
 
  
 <script>
-var jq= jQuery.noConflict();
 
-jq( "div" ).hide();
+$$( "div" ).hide();
 
 //REPO_LIST
 // Class to represent a repo
@@ -76,9 +75,9 @@ window.onload = function() {
     if (window.jQuery) {  
         // jQuery is loaded  
         alert("Yeah!");
-        jQuery(function(){
+        $$(function(){
         // DOM Ready - do your stuff 
-             jQuery("#repolist-refresh3").click(function(){
+             $$("#repolist-refresh3").click(function(){
                    alert("The repolist-refresh3 was clicked.");
              });
         }); 
