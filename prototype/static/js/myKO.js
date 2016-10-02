@@ -23,4 +23,28 @@ function ReservationsViewModel() {
     ]);
 }
 
-ko.applyBindings(new ReservationsViewModel());
+//ko.applyBindings(new ReservationsViewModel());
+
+
+//REPO_LIST
+// Class to represent a repo
+function Repo(name, path, branch) {
+    var self = this;
+    self.name = name;
+    self.path = path;
+    self.branch = branch;
+}
+
+// Overall viewmodel for this screen, along with initial state
+function ReposViewModel() {
+    var self = this;
+ 
+    // Editable data
+    self.repos = ko.observableArray([
+        new Repo("Repo1", "Repo1path", "master")
+       ,new Repo("Repo2", "Repo2path", "master")
+       ,new Repo("Repo3", "Repo3path", "master")
+    ]);
+}
+
+ko.applyBindings(new ReposViewModel());
