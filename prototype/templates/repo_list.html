@@ -21,7 +21,41 @@
 
 <div><p id="post-result">Hey</p></div>
 
+ 
 <script>
+
+//REPO_LIST
+// Class to represent a repo
+function Repo(name, path, branch) {
+    var self = this;
+    self.name = name;
+    self.path = path;
+    self.branch = branch;
+}
+
+// Overall viewmodel for this screen, along with initial state
+function ReposViewModel() {
+    var self = this;
+    
+    self.currentRepo = ko.observable("Repo1");
+ 
+    // Editable data
+    self.repos = ko.observableArray([
+        new Repo("Repo1", "Repo1path", "master")
+       ,new Repo("Repo2", "Repo2path", "master")
+       ,new Repo("Repo3", "Repo3path", "master")
+    ]);
+    
+    self.test = function() {
+        //self.repos[1].name("test")
+        var newRepo = gitpatcher.refreshRepoList();
+        //self.currentRepo("test")
+        self.currentRepo(newRepo)
+    };   
+        
+}
+
+ko.applyBindings(new ReposViewModel());
 
 
 
@@ -39,6 +73,13 @@ window.onload = function() {
     if (window.jQuery) {  
         // jQuery is loaded  
         alert("Yeah!");
+        jQuery(function(){
+        // DOM Ready - do your stuff 
+             jQuery("#repolist-refresh3").click(function(){
+                   alert("The repolist-refresh3 was clicked.");
+             });
+        }); 
+        
         //$(".ui-button").text('Pushed');
     } else {
         // jQuery is not loaded
@@ -46,5 +87,7 @@ window.onload = function() {
     }
 
 }
+
+
 </script>
 

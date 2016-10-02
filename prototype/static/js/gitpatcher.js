@@ -66,6 +66,7 @@ gitpatcher.displaySQLplus = function(data) {
 
 //PAB attempt to contact db via sqlplus and show a result.
 gitpatcher.refreshRepoList = function() {
+    return "result";
 //$("#post-result").html('Pushed');
 /*
     $.post("refreshRepoList", query, function(data, status, xhr) { //Calls new routine
