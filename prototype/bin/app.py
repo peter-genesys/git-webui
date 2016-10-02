@@ -1,7 +1,7 @@
-#The orginal basis of this code was from https://learnpythonthehardway.org/book/ex52.html
-import web
+
+import web #The genesis of the use of web.py was from https://learnpythonthehardway.org/book/ex52.html
 import os
-import sys
+#import sys
 
 #from gothonweb import map
 
@@ -11,14 +11,7 @@ urls = ('/(.*)/'   , 'redirect'   #redirect without trailing /
 )
 
 app = web.application(urls, globals())
-
-#Start from app.py (python script and go up 2 dirs)
-#web_root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
-#web.debug(web_root)
-#Then go down 3 dirs - this is the new root that web addresses will be related to.
-#Eg release/share/git-webui/webui/ (css|img|js)
-#web_root = os.path.join(web_root, "share", "git-webui", "webui")
-
+ 
 # little hack so that debug mode works with sessions
 #if web.config.get('_session') is None:
 #    store = web.session.DiskStore('sessions')
@@ -37,6 +30,7 @@ tempates_dir = os.path.join(app_root,'templates/')
 web.debug(tempates_dir)
 render = web.template.render(tempates_dir, globals=globals(), base="layout")
 
+#GLOBAL FUNCTIONS
 #workaround for missing host details
 def full_url(path):
     return 'https://'+web.ctx.host+'/'+path
@@ -44,11 +38,9 @@ def full_url(path):
 def seeother(path):
     raise web.seeother(full_url(path))  
     
-    
+#CLASSES    
 class redirect:
     def GET(self, path):
-        #This effectively removes the trailing / and retries it.
-        #raise web.seeother('https://'+web.ctx.host+'/' + path)
         seeother(path)
 
 class Index(object):
@@ -56,8 +48,6 @@ class Index(object):
         # this is used to "setup" the session with starting values
         #session.SQLsession = None
         seeother('repolist')
-        #raise web.seeother(full_url('repolist'))  
-
 
 class RepoList(object):
 
@@ -77,7 +67,6 @@ class RepoList(object):
         #    session.room = session.room.go(form.action)
   
         seeother('repolist')
-        #raise web.seeother(full_url('repolist'))  
-
+ 
 if __name__ == "__main__":
     app.run()

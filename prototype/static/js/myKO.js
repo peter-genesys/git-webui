@@ -1,19 +1,26 @@
-/*global ko*/
+// Class to represent a row in the seat reservations grid
+function SeatReservation(name, initialMeal) {
+    var self = this;
+    self.name = name;
+    self.meal = ko.observable(initialMeal);
+}
 
-//PAB Create an object webui
-var myKO = myKO || {};
+// Overall viewmodel for this screen, along with initial state
+function ReservationsViewModel() {
+    var self = this;
 
-//PAB Add attributes to myKO
- 
-     // Here's my data model
-myKO.ViewModel = function(first, last) {
-         this.firstName = ko.observable(first);
-         this.lastName = ko.observable(last);
-      
-         this.fullName = ko.computed(function() {
-             // Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
-             return this.firstName() + " " + this.lastName();
-         }, this);
-     };
-      
-     
+    // Non-editable catalog data - would come from the server
+    self.availableMeals = [
+        { mealName: "Standard (sandwich)", price: 0 },
+        { mealName: "Premium (lobster)", price: 34.95 },
+        { mealName: "Ultimate (whole zebra)", price: 290 }
+    ];    
+
+    // Editable data
+    self.seats = ko.observableArray([
+        new SeatReservation("Steve", self.availableMeals[0]),
+        new SeatReservation("Bert", self.availableMeals[0])
+    ]);
+}
+
+ko.applyBindings(new ReservationsViewModel());
