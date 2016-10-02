@@ -2,6 +2,7 @@
 import web #The genesis of the use of web.py was from https://learnpythonthehardway.org/book/ex52.html
 import os
 #import sys
+import json
 
 #from gothonweb import map
 
@@ -60,13 +61,41 @@ class RepoList(object):
         #    return render.you_died()
 
     def POST(self):
-        form = web.input(action=None)
+        #form = web.input(action=None)
 
         # there is a bug here, can you fix it?
         #if session.room and form.action:
         #    session.room = session.room.go(form.action)
-  
-        seeother('repolist')
- 
+        
+        #user_data = web.input()
+        #data = web.data() # you can get data use this method
+        
+        webdata = web.data()
+        #use script to send response and receive request.
+        return webdata 
+        
+'''  
+        #process post request
+        if self.path == "/refreshRepoList": 
+            print "/refreshRepoList"
+   
+            user_data = web.input()
+            
+            data = web.data() # you can get data use this method
+            print data
+            response = json.dumps({'name'  : 'R1'
+                                  ,'path'  : 'P1'
+                                  ,'branch': 'B1' 
+                                  }) + '\n' #add linefeed to help separate from footers
+
+            self.wfile.write(response)
+            self.send_response(200)
+            
+        else: 
+            print "else"
+            
+            seeother('repolist')
+'''
+
 if __name__ == "__main__":
     app.run()

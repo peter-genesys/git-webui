@@ -1,3 +1,5 @@
+ko.options.deferUpdates = true; //for performance - wait until values stabl before updating display 
+
 // Class to represent a row in the seat reservations grid
 function SeatReservation(name, initialMeal) {
     var self = this;
@@ -48,3 +50,4 @@ function ReposViewModel() {
 }
 
 ko.applyBindings(new ReposViewModel());
+

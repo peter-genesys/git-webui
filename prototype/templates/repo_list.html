@@ -11,7 +11,17 @@
             <td data-bind="text: branch"></td>
         </tr>    
     </tbody>
+
 </table>
+<button onclick="alert('click');" id="repolist-refresh" class="ui-button ui-widget ui-corner-all">Refresh</button>
+<button onclick="do_click();" id="repolist-refresh2" class="ui-button ui-widget ui-corner-all">Refresh2</button>
+<button id="repolist-refresh3" class="ui-button ui-widget ui-corner-all">Refresh3</button>
 
+<div><p id="post-result">Hey</p></div>
 
+<script>
+function do_click(){
+    alert("repolist-refresh2 was clicked.");
+}
+</script>
 

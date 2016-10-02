@@ -14,13 +14,31 @@ $def with (content)
         <script src="static/js/bootstrap.min.js"></script>
         <script src="static/js/jquery-ui/jquery-ui.js"></script>
         <script src='static/js/knockout-3.4.0.js'></script>
+        <script src='static/js/gitpatcher.js'></script>
 
 </head>
 <body>
+        <!-- Error modal dialog -->
+        <div class="modal fade" id="error-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Error</h4>
+                    </div>
+                    <pre class="modal-body alert alert-danger"></pre>
+                </div>
+            </div>
+        </div>    
+    
     <H1>GitPatcher</H1>
 
 $:content
 
         <script src='static/js/myKO.js'></script>
+
+</script>
+
+        
 </body>
 </html>
