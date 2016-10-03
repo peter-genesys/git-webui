@@ -17,10 +17,12 @@
 <button onclick="alert('click');" id="repolist-refresh" class="ui-button ui-widget ui-corner-all">Refresh</button>
 <button onclick="do_click();" id="repolist-refresh2" class="ui-button ui-widget ui-corner-all">Refresh2</button>
 <button id="repolist-refresh3" class="ui-button ui-widget ui-corner-all">Refresh3</button>
-<button data-bind="click: test">test</button>
+<button data-bind="click: test" class="ui-button ui-widget ui-corner-all">Test</button>
+<button data-bind="click: refreshRepoList" class="ui-button ui-widget ui-corner-all">Refresh</button>
 
 <div><p id="post-result">Hey</p></div>
 
+<pre data-bind="text: rawData"></pre> 
  
 <script>
 
@@ -40,6 +42,8 @@ function ReposViewModel() {
     var self = this;
     
     self.currentRepo = ko.observable("Repo1");
+    
+    self.rawData = ko.observable("{}");
  
     // Editable data
     self.repos = ko.observableArray([
@@ -49,11 +53,20 @@ function ReposViewModel() {
     ]);
     
     self.test = function() {
+        self.currentRepo("test")
+    }; 
+    
+    self.refreshRepoList = function() {
         //self.repos[1].name("test")
-        var newRepo = gitpatcher.refreshRepoList();
+        //var newRepo = gitpatcher.refreshRepoList();
         //self.currentRepo("test")
-        self.currentRepo(newRepo)
+        self.repos([
+        new Repo("Repo4", "Repo1path", "master")
+       ,new Repo("Repo5", "Repo2path", "master")
+       ,new Repo("Repo6", "Repo3path", "master")
+    ])
     };   
+    
         
 }
 

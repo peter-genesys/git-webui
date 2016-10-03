@@ -51,7 +51,7 @@ function ReposViewModel() {
     ]);
     
     self.test = function() {
-        self.repos[1].name("test")
+        //self.repos[1].name("test")
         self.currentRepo("test")
     };   
         
