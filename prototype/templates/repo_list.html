@@ -57,22 +57,40 @@ function ReposViewModel() {
     }; 
     
     self.refreshRepoList = function() {
-        //self.repos[1].name("test")
-        self.rawData = gitpatcher.refreshRepoList();
-        //self.currentRepo("test")
-        self.repos([
-        new Repo("Repo4", "Repo1path", "master")
-       ,new Repo("Repo5", "Repo2path", "master")
-       ,new Repo("Repo6", "Repo3path", "master")
-    ])
-    };   
-    
+
+        self.rawData("Pressed");
+        //var requestObj = gitpatcher.refreshRepoList();
+        //var request = JSON.stringify(requestObj);
+        //self.rawData(request);
         
+        //self.rawData(gitpatcher.refreshRepoList());
+        
+        //self.rawData('{"greeting" : "hi"}');
+        //self.rawData({"greeting" : "hi"});
+        
+        //self.currentRepo("test");
+        self.repos([
+          new Repo("Repo4", "Repo1path", "master")
+         ,new Repo("Repo5", "Repo2path", "master")
+         ,new Repo("Repo6", "Repo3path", "master")
+        ]);
+        
+        
+        $$.post("/repolist", function(data, status){
+           var response = JSON.stringify(data);    
+           var stat = JSON.stringify(status);
+            
+           alert("Data: " + response + "\nStatus: " + stat);
+           
+           self.rawData(response);
+           
+        });
+     
+    }    
 }
 
 ko.applyBindings(new ReposViewModel());
-
-
+ 
 
 function do_click(){
     alert("repolist-refresh2 was clicked.");
@@ -87,7 +105,7 @@ function do_click(){
 window.onload = function() {
     if (window.jQuery) {  
         // jQuery is loaded  
-        alert("Yeah!");
+        //alert("Yeah!");
         $$(function(){
         // DOM Ready - do your stuff 
              $$("#repolist-refresh3").click(function(){

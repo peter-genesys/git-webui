@@ -83,29 +83,68 @@ gitpatcher.displaySQLplus = function(data) {
 
 //PAB attempt to contact db via sqlplus and show a result.
 gitpatcher.refreshRepoList = function() {
+/*
+    $.post('/repolist', {param1: "hello", param2: "world"}, function(response) {
+    // Do something with the request
+      return response;
+}, 'json');
+*/
+
+    var requestObj = {param1: "hello", param2: "world"};
+    var request = JSON.stringify(requestObj);
+
+
+    $.post("/repolist", request, function(data, status, xhr) { //Calls new routine
+        if (xhr.status == 200) {
+            console.log('success');
+            console.log(data);
+            return data;
+ 
+        } else {
+            console.log('else');
+            console.log(data);
+            gitpatcher.showError(data);
+        }
+    }, "text")
+    .fail(function(xhr, status, error) {
+        console.log('fail');
+        gitpatcher.showError("refreshRepoList Error: " + error);
+    });
+
+    
     
     //$.getJSON("/getrepolist", function(result){
     //    return result;
     //});
-    
+
+/*
 //Lets try to call the server..    
+//var jqXHR_Obj = $.postJSON('/repolist', {param1: "hello", param2: "world"})
 $.postJSON('/repolist', {param1: "hello", param2: "world"})
     .complete(function (data) {
+        console.log("complete");
         // Optional - fires when the operation completes, regardless of status
-        return data;
+        //return {"result" : "complete"};
+        //return data;
+        return "complete"
     })
     .success(function (data) {
+        console.log("success");
         // Optional - fires when operation completes successfully
-        return data;
+        //return {"result" : "success"};
+        //return data;
+        return "success"
     })
     .error(function (data) {
+        console.log("error");
         // Optional - fires when operation completes with error
-        return data;
+        //return {"result" : "error"};
+        //return data;
+        return "error"
     });
-    
+ */   
  
-    
-    //return "result";
+    //return jqXHR_Obj;
 //$("#post-result").html('Pushed');
 /*
     $.post("refreshRepoList", query, function(data, status, xhr) { //Calls new routine

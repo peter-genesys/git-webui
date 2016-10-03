@@ -77,8 +77,16 @@ class RepoList(object):
         #return webdata 
         
         print "POST"
+        received_payload = web.data() #data arrives as a string
+        print received_payload
         
-        return "{'test':'1'}"
+        pyDict = {'one':1,'two':2}
+        web.header('Content-Type', 'application/json')
+        #web.header('Content-Type', 'text/plain')
+        return json.dumps(pyDict)
+        
+        
+        #return "{test:1}"
         
 '''  
         #process post request
