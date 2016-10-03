@@ -93,6 +93,19 @@ gitpatcher.refreshRepoList = function() {
     var requestObj = {param1: "hello", param2: "world"};
     var request = JSON.stringify(requestObj);
 
+    $.post("/repolist", function(responseObj, statusObj){
+
+        var response = JSON.stringify(responseObj);    
+        var status = JSON.stringify(statusObj);
+            
+        alert("Data: " + response + "\nStatus: " + status);
+           
+        return responseObj;
+           
+    });
+
+
+/*
 
     $.post("/repolist", request, function(data, status, xhr) { //Calls new routine
         if (xhr.status == 200) {
@@ -110,7 +123,7 @@ gitpatcher.refreshRepoList = function() {
         console.log('fail');
         gitpatcher.showError("refreshRepoList Error: " + error);
     });
-
+*/
     
     
     //$.getJSON("/getrepolist", function(result){
