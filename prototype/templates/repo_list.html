@@ -58,7 +58,7 @@ function ReposViewModel() {
     
     self.refreshRepoList = function() {
         //self.repos[1].name("test")
-        //var newRepo = gitpatcher.refreshRepoList();
+        self.rawData = gitpatcher.refreshRepoList();
         //self.currentRepo("test")
         self.repos([
         new Repo("Repo4", "Repo1path", "master")

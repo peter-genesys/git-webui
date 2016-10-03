@@ -1,3 +1,20 @@
+
+//PAB Create a postJSON function for jQuery, since it doesn't have one.
+(function ($) {
+    $.postJSON = function (url, data) {
+        var o = {
+            url: url,
+            type: "POST",
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        };
+        if (data !== undefined) {
+            o.data = JSON.stringify(data);
+        }
+        return $.ajax(o);
+    };
+} (jQuery));
+
 "use strict"
 
 //PAB Create an object gitpatcher
@@ -66,7 +83,29 @@ gitpatcher.displaySQLplus = function(data) {
 
 //PAB attempt to contact db via sqlplus and show a result.
 gitpatcher.refreshRepoList = function() {
-    return "result";
+    
+    //$.getJSON("/getrepolist", function(result){
+    //    return result;
+    //});
+    
+//Lets try to call the server..    
+$.postJSON('/repolist', {param1: "hello", param2: "world"})
+    .complete(function (data) {
+        // Optional - fires when the operation completes, regardless of status
+        return data;
+    })
+    .success(function (data) {
+        // Optional - fires when operation completes successfully
+        return data;
+    })
+    .error(function (data) {
+        // Optional - fires when operation completes with error
+        return data;
+    });
+    
+ 
+    
+    //return "result";
 //$("#post-result").html('Pushed');
 /*
     $.post("refreshRepoList", query, function(data, status, xhr) { //Calls new routine

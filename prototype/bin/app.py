@@ -39,6 +39,7 @@ def full_url(path):
     
 def seeother(path):
     raise web.seeother(full_url(path))  
+  
     
 #CLASSES    
 class redirect:
@@ -71,9 +72,13 @@ class RepoList(object):
         #user_data = web.input()
         #data = web.data() # you can get data use this method
         
-        webdata = web.data()
+        #webdata = web.data()
         #use script to send response and receive request.
-        return webdata 
+        #return webdata 
+        
+        print "POST"
+        
+        return "{'test':'1'}"
         
 '''  
         #process post request
