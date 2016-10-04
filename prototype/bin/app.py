@@ -63,42 +63,44 @@ class RepoList(object):
         #    return render.you_died()
 
     def POST(self):
-        #form = web.input(action=None)
-
-        # there is a bug here, can you fix it?
-        #if session.room and form.action:
-        #    session.room = session.room.go(form.action)
-        
-        #user_data = web.input()
-        #data = web.data() # you can get data use this method
-        
-        #webdata = web.data()
-        #use script to send response and receive request.
-        #return webdata 
-        
+ 
         print "POST"
-        received_payload = web.data() #data arrives as a string
-        print received_payload
         
-        pyDict = {'one':1,'two':2}
+        print web.data()
+ 
+        json_data = json.loads(web.data())
+ 
+        print json.dumps(json_data)
+        
+        print os.listdir(json_data["path"])
+        
+        path = json_data["path"]
+        dirs = os.listdir(path)
+        repos = []
+        for folder in dirs:
+           repo = {'name':folder, 'path':path+'/'+folder,'branch':'master'}
+           repos.append(repo.copy())
+        
         web.header('Content-Type', 'application/json')
-        #web.header('Content-Type', 'text/plain')
-        #return json.dumps(pyDict)
         
+        print json.dumps(repos)
+        
+        return json.dumps(repos)
+      
+        
+'''    
         return json.dumps( [{
                 'name': "Repo5",
-                'path': "Repo5path",
+                'path': "/home/ubuntu/GitRepos/CrowdMortgageLive",
                 'branch': "develop"
                 }
                 ,{
                 'name': "Repo6",
-                'path': "Repo6path",
+                'path': "/home/ubuntu/GitRepos/CrowdMortgageLive",
                 'branch': "master"
                 }]) 
         
-        #return "{test:1}"
-        
-'''  
+ 
         #process post request
         if self.path == "/refreshRepoList": 
             print "/refreshRepoList"

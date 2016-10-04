@@ -1,5 +1,6 @@
 <h2>RepoList</h2>
 
+<p>GitRepos Path: <input data-bind="value: GitReposPath" /></p>
 <p>Current Repo : <input data-bind="value: currentRepo" /></p>
 <table>
     <thead><tr>
@@ -35,6 +36,11 @@ function Repo(name, path, branch) {
     self.name = name;
     self.path = path;
     self.branch = branch;
+}
+
+function Path(path) {
+    var self = this;
+    self.path = path;
 }
 
 // Overall viewmodel for this screen, along with initial state
@@ -97,6 +103,8 @@ function SomeViewModel() {
  
     self.currentRepo = ko.observable("Repo1");
     
+    self.GitReposPath = ko.observable("/home/ubuntu/GitRepos");
+ 
     self.rawData = ko.observable("{}");
  
     self.repos = ko.mapping.fromJS([]);
@@ -104,33 +112,26 @@ function SomeViewModel() {
     self.test = function() {
         self.currentRepo("test")
     }; 
- /*
-    this.refreshRepoList = function() {
-        $$.ajax({
-            type: 'POST',
-            url: '/repolist',
-            data: JSON.stringify([
-          new Repo("Repo4", "Repo1path", "master")
-         ,new Repo("Repo5", "Repo2path", "master")
-         ,new Repo("Repo6", "Repo3path", "master")
-        ]),
-            context: this,
-            success: function(data) {
-                self.SuccessfullyRetrievedModelsFromAjax(data);
-            },
-            dataType: 'json'
-        });
-    };
-*/
+ 
     self.refreshRepoList = function() {
 
         self.rawData("Pressed");
+        alert(self.GitReposPath());
+        //var requestObj =  { 'GitReposPath': self.GitReposPath };
+        var requestObj =  new Path(self.GitReposPath())
+        
+        //var requestObj =  { 'GitReposPath': "/home/ubuntu/workspace" };
+        var request = JSON.stringify(requestObj);
+        console.log(request);
   
-        $$.post("/repolist", function(data, status){
+        $$.post("/repolist", request, function(data, status){
            var response = JSON.stringify(data);    
            var stat = JSON.stringify(status);
             
            alert("Data: " + response + "\nStatus: " + stat);
+           
+           console.log(response);
+           console.log(stat);
            
            self.rawData(response);
            self.mapToRepos(data)
