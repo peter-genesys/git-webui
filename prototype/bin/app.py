@@ -83,8 +83,18 @@ class RepoList(object):
         pyDict = {'one':1,'two':2}
         web.header('Content-Type', 'application/json')
         #web.header('Content-Type', 'text/plain')
-        return json.dumps(pyDict)
+        #return json.dumps(pyDict)
         
+        return json.dumps( [{
+                'name': "Repo5",
+                'path': "Repo5path",
+                'branch': "develop"
+                }
+                ,{
+                'name': "Repo6",
+                'path': "Repo6path",
+                'branch': "master"
+                }]) 
         
         #return "{test:1}"
         

@@ -104,7 +104,7 @@ function SomeViewModel() {
     self.test = function() {
         self.currentRepo("test")
     }; 
- 
+ /*
     this.refreshRepoList = function() {
         $$.ajax({
             type: 'POST',
@@ -121,19 +121,40 @@ function SomeViewModel() {
             dataType: 'json'
         });
     };
+*/
+    self.refreshRepoList = function() {
+
+        self.rawData("Pressed");
+  
+        $$.post("/repolist", function(data, status){
+           var response = JSON.stringify(data);    
+           var stat = JSON.stringify(status);
+            
+           alert("Data: " + response + "\nStatus: " + stat);
+           
+           self.rawData(response);
+           self.mapToRepos(data)
+           
+        });
+     
+    }    
+    
+    this.mapToRepos = function(repos) {
+        ko.mapping.fromJS(repos, self.repos);
+    };
 
     //this.SuccessfullyRetrievedModelsFromAjax = function(repos) {
     //    ko.mapping.fromJSON(repos, self.repos);
     //};
-   
-    this.SuccessfullyRetrievedModelsFromAjax = function(repos) {
+   /*
+    this.mapResponseToRepos = function(repos) {
         ko.mapping.fromJS([{
                 name: "Repo4",
                 path: "Repo4path",
                 branch: "master"
                 }], self.repos);
     };
-    
+    */
     
     
     
