@@ -89,7 +89,58 @@ function ReposViewModel() {
     }    
 }
 
-ko.applyBindings(new ReposViewModel());
+//ko.applyBindings(new ReposViewModel());
+
+
+function SomeViewModel() {
+    var self = this;
+ 
+    self.currentRepo = ko.observable("Repo1");
+    
+    self.rawData = ko.observable("{}");
+ 
+    self.repos = ko.mapping.fromJS([]);
+    
+    self.test = function() {
+        self.currentRepo("test")
+    }; 
+ 
+    this.refreshRepoList = function() {
+        $$.ajax({
+            type: 'POST',
+            url: '/repolist',
+            data: JSON.stringify([
+          new Repo("Repo4", "Repo1path", "master")
+         ,new Repo("Repo5", "Repo2path", "master")
+         ,new Repo("Repo6", "Repo3path", "master")
+        ]),
+            context: this,
+            success: function(data) {
+                self.SuccessfullyRetrievedModelsFromAjax(data);
+            },
+            dataType: 'json'
+        });
+    };
+
+    //this.SuccessfullyRetrievedModelsFromAjax = function(repos) {
+    //    ko.mapping.fromJSON(repos, self.repos);
+    //};
+   
+    this.SuccessfullyRetrievedModelsFromAjax = function(repos) {
+        ko.mapping.fromJS([{
+                name: "Repo4",
+                path: "Repo4path",
+                branch: "master"
+                }], self.repos);
+    };
+    
+    
+    
+    
+}
+
+ko.applyBindings(new SomeViewModel());
+
  
 
 function do_click(){
@@ -102,25 +153,13 @@ function do_click(){
     //gitpatcher.refreshRepoList();
 }
 
-window.onload = function() {
-    if (window.jQuery) {  
-        // jQuery is loaded  
-        //alert("Yeah!");
-        $$(function(){
-        // DOM Ready - do your stuff 
-             $$("#repolist-refresh3").click(function(){
-                   alert("The repolist-refresh3 was clicked.");
-             });
-        }); 
-        
-        //$(".ui-button").text('Pushed');
-    } else {
-        // jQuery is not loaded
-        alert("Doesn't Work");
-    }
+$$(function(){
+    // DOM Ready - do your stuff 
+    $$("#repolist-refresh3").click(function(){
+        alert("The repolist-refresh3 was clicked.");
+    });
+}); 
 
-}
-
-
+ 
 </script>
 
