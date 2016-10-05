@@ -3,6 +3,8 @@ import web #The genesis of the use of web.py was from https://learnpythonthehard
 import os
 #import sys
 import json
+from git import Repo
+join = os.path.join
 
 #from gothonweb import map
 
@@ -78,8 +80,14 @@ class RepoList(object):
         dirs = os.listdir(path)
         repos = []
         for folder in dirs:
-           repo = {'name':folder, 'path':path+'/'+folder,'branch':'master'}
-           repos.append(repo.copy())
+            folder_path = path+'/'+folder
+            if '.git' in os.listdir(folder_path):
+                repo = Repo(folder_path)
+                assert not repo.bare
+                current_branch = repo.active_branch
+                print current_branch.name
+                repo = {'name':folder, 'path':folder_path,'branch':current_branch.name}
+                repos.append(repo.copy())
         
         web.header('Content-Type', 'application/json')
         
