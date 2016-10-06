@@ -1,0 +1,478 @@
+{
+    "repos": {
+        "repo": [
+            {
+                "orgs": {
+                    "org": [
+                        {
+                            "_OrgName": "Navigo",
+                            "_OrgCode": "nav",
+                            "_OrgInFeature": "Y",
+                            "_PRODTNS": "",
+                            "_PRODCONNECT": "",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "",
+                            "_TESTCONNECT": "",
+                            "_DEVTNS": "T2DEV",
+                            "_DEVCONNECT": "hyler.dcs.flinders.edu.au:1536/T2DEV",
+                            "_VMTNS": "DEMODB",
+                            "_VMCONNECT": "10.10.10.11:1521/DEMODB"
+                        },
+                        {
+                            "_OrgName": "Flinders Uni",
+                            "_OrgCode": "fu",
+                            "_OrgInFeature": "Y",
+                            "_PRODTNS": "",
+                            "_PRODCONNECT": "",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "",
+                            "_TESTCONNECT": "",
+                            "_DEVTNS": "T2DEV",
+                            "_DEVCONNECT": "hyler.dcs.flinders.edu.au:1536/T2DEV",
+                            "_VMTNS": "DEMODB",
+                            "_VMCONNECT": "10.10.10.11:1521/DEMODB"
+                        }
+                    ]
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "NavigoAlesco",
+                        "_AppCode": "nav",
+                        "_AppInFeature": "N",
+                        "_AppId": "",
+                        "_Jira": "",
+                        "_Schema": "alesco"
+                    }
+                },
+                "_RepoName": "NavigoAlesco",
+                "_RepoPath": "F:/navigo_alesco/",
+                "_ApexRelPath": "apex/",
+                "_ODBCjavaRelPath": "database/apex/oracle/jdbc/lib/ojdbc5.jar",
+                "_DatabaseRelPath": "database/",
+                "_ExtrasRelPath": "database/",
+                "_PatchRelPath": "patch/",
+                "_PatchExportPath": "F:/export/",
+                "_UsePatchAdmin": "False",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": "",
+                "apps": {
+                    "app": {
+                        "_AppName": "GitPatcher VB",
+                        "_AppCode": "gp",
+                        "_AppInFeature": "Y",
+                        "_AppId": "",
+                        "_Jira": "GP-",
+                        "_Schema": ""
+                    }
+                },
+                "_RepoName": "GitPatcher",
+                "_RepoPath": "F:\\GitPatcher",
+                "_ApexRelPath": "apex",
+                "_ODBCjavaRelPath": "apex/oracle/jdbc/lib/ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "False",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": {
+                        "_OrgName": "Tupperware",
+                        "_OrgCode": "tup",
+                        "_OrgInFeature": "N",
+                        "_PRODTNS": "TUP_PROD",
+                        "_PRODCONNECT": "159.234.138.27:1521/pdborcl",
+                        "_UATTNS": "",
+                        "_UATCONNECT": "",
+                        "_TESTTNS": "TUP_TEST",
+                        "_TESTCONNECT": "159.234.138.35:1521/testplug",
+                        "_DEVTNS": "TUP_DEV",
+                        "_DEVCONNECT": "159.234.138.35:1521/devlplug",
+                        "_VMTNS": "VM_DEV",
+                        "_VMCONNECT": "10.10.10.22:1521/pdborcl"
+                    }
+                },
+                "apps": {
+                    "app": [
+                        {
+                            "_AppName": "Warranty",
+                            "_AppCode": "wty",
+                            "_AppInFeature": "Y",
+                            "_AppId": "f200",
+                            "_Jira": "WTY-",
+                            "_Schema": "public_apps"
+                        },
+                        {
+                            "_AppName": "Customer Service",
+                            "_AppCode": "cst",
+                            "_AppInFeature": "Y",
+                            "_AppId": "f100",
+                            "_Jira": "CST-",
+                            "_Schema": "workspace1"
+                        },
+                        {
+                            "_AppName": "Doxxy",
+                            "_AppCode": "dox",
+                            "_AppInFeature": "Y",
+                            "_AppId": "",
+                            "_Jira": "DOX-",
+                            "_Schema": ""
+                        },
+                        {
+                            "_AppName": "Parts Sales",
+                            "_AppCode": "prt",
+                            "_AppInFeature": "Y",
+                            "_AppId": "f300",
+                            "_Jira": "PRT-",
+                            "_Schema": "public_apps"
+                        }
+                    ]
+                },
+                "_RepoName": "Tupperware",
+                "_RepoPath": "F:\\tupperware",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\apps\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": [
+                        {
+                            "_OrgName": "Thiess",
+                            "_OrgCode": "thiess",
+                            "_OrgInFeature": "N",
+                            "_PRODTNS": "",
+                            "_PRODCONNECT": "",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "",
+                            "_TESTCONNECT": "",
+                            "_DEVTNS": "",
+                            "_DEVCONNECT": "",
+                            "_VMTNS": "VM_THIESS",
+                            "_VMCONNECT": "10.10.10.11:1521:orcl"
+                        },
+                        {
+                            "_OrgName": "Tupperware",
+                            "_OrgCode": "tup",
+                            "_OrgInFeature": "N",
+                            "_PRODTNS": "TUP_PROD",
+                            "_PRODCONNECT": "159.234.138.27:1521/pdborcl",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "TUP_TEST",
+                            "_TESTCONNECT": "159.234.138.35:1521/testplug",
+                            "_DEVTNS": "TUP_DEV",
+                            "_DEVCONNECT": "159.234.138.35:1521/devlplug",
+                            "_VMTNS": "VM_DEV",
+                            "_VMCONNECT": "10.10.10.22:1521/pdborcl"
+                        }
+                    ]
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "Tracker",
+                        "_AppCode": "trk",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f123",
+                        "_Jira": "TRK-",
+                        "_Schema": "patch_admin"
+                    }
+                },
+                "_RepoName": "Tracker",
+                "_RepoPath": "F:\\Tracker",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\apps\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": [
+                        {
+                            "_OrgName": "Tupperware",
+                            "_OrgCode": "tup",
+                            "_OrgInFeature": "N",
+                            "_PRODTNS": "TUP_PROD",
+                            "_PRODCONNECT": "159.234.13.245:1521/pdborcl",
+                            "_UATTNS": "TUP_DEV_A",
+                            "_UATCONNECT": "159.234.13.237:1521:xe",
+                            "_TESTTNS": "TUP_TEST_STD",
+                            "_TESTCONNECT": "159.234.13.238:1521/pdborcl",
+                            "_DEVTNS": "TUP_DEV_INT",
+                            "_DEVCONNECT": "159.234.13.236:1521:xe",
+                            "_VMTNS": "VM_DEV",
+                            "_VMCONNECT": "10.10.10.22:1521/pdborcl",
+                            "_VM2TNS": "VM_TEST",
+                            "_VM2CONNECT": "10.10.10.23:1521/pdborcl"
+                        },
+                        {
+                            "_OrgName": "Thiess",
+                            "_OrgCode": "thiess",
+                            "_OrgInFeature": "N",
+                            "_PRODTNS": "",
+                            "_PRODCONNECT": "",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "",
+                            "_TESTCONNECT": "",
+                            "_DEVTNS": "",
+                            "_DEVCONNECT": "",
+                            "_VMTNS": "VM_THIESS",
+                            "_VMCONNECT": "10.10.10.11:1521:orcl"
+                        }
+                    ]
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "Tracker",
+                        "_AppCode": "trk",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f123",
+                        "_Jira": "TRK-",
+                        "_Schema": "patch_admin_prod"
+                    }
+                },
+                "_RepoName": "TrackerTemp",
+                "_RepoPath": "F:\\Tracker",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\apps\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": [
+                        {
+                            "_OrgName": "Tupperware",
+                            "_OrgCode": "tup",
+                            "_OrgInFeature": "N",
+                            "_PRODTNS": "TUP_PROD",
+                            "_PRODCONNECT": "159.234.13.245:1521/pdborcl",
+                            "_UATTNS": "TUP_DEV_A",
+                            "_UATCONNECT": "159.234.13.237:1521:xe",
+                            "_TESTTNS": "TUP_TEST_STD",
+                            "_TESTCONNECT": "159.234.13.238:1521/pdborcl",
+                            "_DEVTNS": "TUP_DEV_INT",
+                            "_DEVCONNECT": "159.234.13.236:1521:xe",
+                            "_VMTNS": "VM_DEV",
+                            "_VMCONNECT": "10.10.10.22:1521/pdborcl",
+                            "_VM2TNS": "VM_TEST",
+                            "_VM2CONNECT": "10.10.10.23:1521/pdborcl"
+                        },
+                        {
+                            "_OrgName": "Flinders Uni",
+                            "_OrgCode": "fu",
+                            "_OrgInFeature": "Y",
+                            "_PRODTNS": "",
+                            "_PRODCONNECT": "",
+                            "_UATTNS": "",
+                            "_UATCONNECT": "",
+                            "_TESTTNS": "",
+                            "_TESTCONNECT": "",
+                            "_DEVTNS": "T2DEV",
+                            "_DEVCONNECT": "hyler.dcs.flinders.edu.au:1536/T2DEV",
+                            "_VMTNS": "DEMODB",
+                            "_VMCONNECT": "10.10.10.11:1521/DEMODB"
+                        }
+                    ]
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "SmartLogger",
+                        "_AppCode": "log",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f104",
+                        "_Jira": "LOG-",
+                        "_Schema": "logger"
+                    }
+                },
+                "_RepoName": "SmartLogger",
+                "_RepoPath": "F:\\SmartLogger",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\apps\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": {
+                        "_OrgName": "Cancer Screening Systems",
+                        "_OrgCode": "CSS",
+                        "_OrgInFeature": "N",
+                        "_PRODTNS": "",
+                        "_PRODCONNECT": "",
+                        "_UATTNS": "",
+                        "_UATCONNECT": "",
+                        "_TESTTNS": "",
+                        "_TESTCONNECT": "",
+                        "_DEVTNS": "POPHD4",
+                        "_DEVCONNECT": "",
+                        "_VMTNS": "VM_DEV",
+                        "_VMCONNECT": "10.10.10.22:1521/pdborcl"
+                    }
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "Breast Screen Queensland",
+                        "_AppCode": "bsqr",
+                        "_AppInFeature": "Y",
+                        "_AppId": "",
+                        "_Jira": "BR-",
+                        "_Schema": ""
+                    }
+                },
+                "_RepoName": "CSS_MyWork",
+                "_RepoPath": "F:\\CSS_MyWork",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\apps\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "BSQR\\database",
+                "_ExtrasRelPath": "BSQR\\database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Release Branches"
+            },
+            {
+                "orgs": {
+                    "org": {
+                        "_OrgName": "Thiess",
+                        "_OrgCode": "thiess",
+                        "_OrgInFeature": "N",
+                        "_PRODTNS": "",
+                        "_PRODCONNECT": "",
+                        "_UATTNS": "",
+                        "_UATCONNECT": "",
+                        "_TESTTNS": "",
+                        "_TESTCONNECT": "",
+                        "_DEVTNS": "",
+                        "_DEVCONNECT": "",
+                        "_VMTNS": "VM_THIESS",
+                        "_VMCONNECT": "10.10.10.11:1521:orcl"
+                    }
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "Prism",
+                        "_AppCode": "prism",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f101",
+                        "_Jira": "BG-",
+                        "_Schema": "TPDS"
+                    }
+                },
+                "_RepoName": "Thiess",
+                "_RepoPath": "F:\\apex_apps",
+                "_ApexRelPath": "apex",
+                "_ODBCjavaRelPath": "apex\\oracle\\jdbc\\lib\\ojdbc5.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": {
+                        "_OrgName": "CPB",
+                        "_OrgCode": "cpb",
+                        "_OrgInFeature": "N",
+                        "_PRODTNS": "",
+                        "_PRODCONNECT": "",
+                        "_UATTNS": "",
+                        "_UATCONNECT": "",
+                        "_TESTTNS": "",
+                        "_TESTCONNECT": "",
+                        "_DEVTNS": "",
+                        "_DEVCONNECT": "",
+                        "_VMTNS": "VM_THIESS",
+                        "_VMCONNECT": "10.10.10.11:1521:orcl"
+                    }
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "Prism",
+                        "_AppCode": "prism",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f101",
+                        "_Jira": "BG-",
+                        "_Schema": "TPDS"
+                    }
+                },
+                "_RepoName": "CPB",
+                "_RepoPath": "F:\\CPB",
+                "_ApexRelPath": "apex",
+                "_ODBCjavaRelPath": "apex\\oracle\\jdbc\\lib\\ojdbc5.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            },
+            {
+                "orgs": {
+                    "org": {
+                        "_OrgName": "BMW",
+                        "_OrgCode": "bmw",
+                        "_OrgInFeature": "N",
+                        "_PRODTNS": "",
+                        "_PRODCONNECT": "",
+                        "_UATTNS": "",
+                        "_UATCONNECT": "",
+                        "_TESTTNS": "",
+                        "_TESTCONNECT": "",
+                        "_DEVTNS": "",
+                        "_DEVCONNECT": "",
+                        "_VMTNS": "VM_DEV",
+                        "_VMCONNECT": "10.10.10.22:1521/pdborcl"
+                    }
+                },
+                "apps": {
+                    "app": {
+                        "_AppName": "CorpSalesReports",
+                        "_AppCode": "csr",
+                        "_AppInFeature": "Y",
+                        "_AppId": "f500",
+                        "_Jira": "prno-",
+                        "_Schema": "BROCK"
+                    }
+                },
+                "_RepoName": "CRMau",
+                "_RepoPath": "F:\\CRMau",
+                "_ApexRelPath": "apex\\apps",
+                "_ODBCjavaRelPath": "apex\\utility\\oracle\\jdbc\\lib\\ojdbc6.jar",
+                "_DatabaseRelPath": "database",
+                "_ExtrasRelPath": "database",
+                "_PatchRelPath": "patch",
+                "_PatchExportPath": "F:\\export",
+                "_UsePatchAdmin": "True",
+                "_ReleaseMan": "Environment Branches"
+            }
+        ]
+    }
+}

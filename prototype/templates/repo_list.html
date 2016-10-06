@@ -65,16 +65,7 @@ function ReposViewModel() {
     self.refreshRepoList = function() {
 
         self.rawData("Pressed");
-        //var requestObj = gitpatcher.refreshRepoList();
-        //var request = JSON.stringify(requestObj);
-        //self.rawData(request);
-        
-        //self.rawData(gitpatcher.refreshRepoList());
-        
-        //self.rawData('{"greeting" : "hi"}');
-        //self.rawData({"greeting" : "hi"});
-        
-        //self.currentRepo("test");
+ 
         self.repos([
           new Repo("Repo4", "Repo1path", "master")
          ,new Repo("Repo5", "Repo2path", "master")
@@ -117,10 +108,9 @@ function SomeViewModel() {
 
         self.rawData("Pressed");
         alert(self.GitReposPath());
-        //var requestObj =  { 'GitReposPath': self.GitReposPath };
+ 
         var requestObj =  new Path(self.GitReposPath())
-        
-        //var requestObj =  { 'GitReposPath': "/home/ubuntu/workspace" };
+ 
         var request = JSON.stringify(requestObj);
         console.log(request);
   
@@ -143,22 +133,7 @@ function SomeViewModel() {
     this.mapToRepos = function(repos) {
         ko.mapping.fromJS(repos, self.repos);
     };
-
-    //this.SuccessfullyRetrievedModelsFromAjax = function(repos) {
-    //    ko.mapping.fromJSON(repos, self.repos);
-    //};
-   /*
-    this.mapResponseToRepos = function(repos) {
-        ko.mapping.fromJS([{
-                name: "Repo4",
-                path: "Repo4path",
-                branch: "master"
-                }], self.repos);
-    };
-    */
-    
-    
-    
+   
 }
 
 ko.applyBindings(new SomeViewModel());
@@ -167,12 +142,7 @@ ko.applyBindings(new SomeViewModel());
 
 function do_click(){
     alert("repolist-refresh2 was clicked.");
-    
-    //ReposViewModel.repos()[1].name("Fred");
-    
  
-    //$("#post-result").text('Pushed');
-    //gitpatcher.refreshRepoList();
 }
 
 $$(function(){

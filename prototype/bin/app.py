@@ -11,6 +11,7 @@ join = os.path.join
 urls = ('/(.*)/'   , 'redirect'   #redirect without trailing /
        ,'/'        , 'Index'
        ,'/repolist', 'RepoList'
+       ,'/repoconfig', 'RepoConfig'
        ,'/test'    , 'TestJquery'
 )
 
@@ -130,6 +131,34 @@ class RepoList(object):
             
             seeother('repolist')
 '''
+class RepoConfig(object):
+
+    def GET(self):
+        return render.repo_config()  
+     
+    def POST(self):
+ 
+        print "RepoConfig"
+        
+        print web.data()
+ 
+        json_data = json.loads(web.data())
+ 
+        print json.dumps(json_data)
+ 
+        GitReposConfigRelPath = json_data["path"]
+        
+        GitReposConfigAbsPath = os.path.join(app_root,GitReposConfigRelPath)
+        
+        print GitReposConfigAbsPath
+        
+        repoConfig = open(GitReposConfigAbsPath, 'r').read()
+        
+        web.header('Content-Type', 'application/json')
+        
+        return repoConfig
+ 
+
 class TestJquery(object):
 
     def GET(self):

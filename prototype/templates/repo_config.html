@@ -1,0 +1,147 @@
+<h2>RepoConfig</h2>
+
+<p>GitRepos Config file Path: <input data-bind="value: GitReposConfigPath" /></p>
+
+
+<button data-bind="click: refreshRepoConfig" class="ui-button ui-widget ui-corner-all">Refresh Config</button>
+
+<pre data-bind="text: rawData">dummy</pre> 
+
+<div data-bind="html: htmlTree"></div> 
+ 
+<script>
+
+
+/*
+//REPO_LIST
+// Class to represent a repo
+function Repo(name, path, branch) {
+    var self = this;
+    self.name = name;
+    self.path = path;
+    self.branch = branch;
+}
+
+
+
+// Overall viewmodel for this screen, along with initial state
+function ReposViewModel() {
+    var self = this;
+    
+    self.currentRepo = ko.observable("Repo1");
+    
+    self.rawData = ko.observable("{}");
+ 
+    // Editable data
+    self.repos = ko.observableArray([
+        new Repo("Repo1", "Repo1path", "master")
+       ,new Repo("Repo2", "Repo2path", "master")
+       ,new Repo("Repo3", "Repo3path", "master")
+    ]);
+    
+    self.test = function() {
+        self.currentRepo("test")
+    }; 
+    
+    self.refreshRepoList = function() {
+
+        self.rawData("Pressed");
+ 
+        self.repos([
+          new Repo("Repo4", "Repo1path", "master")
+         ,new Repo("Repo5", "Repo2path", "master")
+         ,new Repo("Repo6", "Repo3path", "master")
+        ]);
+        
+        
+        $$.post("/repolist", function(data, status){
+           var response = JSON.stringify(data);    
+           var stat = JSON.stringify(status);
+            
+           alert("Data: " + response + "\nStatus: " + stat);
+           
+           self.rawData(response);
+           
+        });
+     
+    }    
+}
+
+//ko.applyBindings(new ReposViewModel());
+*/
+
+function json2html(json) {
+    var i, ret = "";
+    ret += "<ul>";
+    for( i in json) {
+        ret += "<li>"+i+": ";
+        if( typeof json[i] === "object") ret += json2html(json[i]);
+        else ret += json[i];
+        ret += "</li>";
+    }
+    ret += "</ul>";
+    return ret;
+}
+
+function Path(path) {
+    var self = this;
+    self.path = path;
+}
+
+function RepoConfigViewModel() {
+    var self = this;
+ 
+    //self.currentRepo = ko.observable("Repo1");
+    
+    self.GitReposConfigPath = ko.observable("data/GitRepos.json");
+ 
+    self.rawData = ko.observable("{}");
+ 
+    self.repoConfig = ko.mapping.fromJS([]);
+    
+    self.htmlTree = ko.observable("<pre>DEMO</pre>");
+  
+ 
+    self.refreshRepoConfig = function() {
+
+        self.rawData("Pressed");
+        alert(self.GitReposConfigPath());
+ 
+        var requestObj =  new Path(self.GitReposConfigPath())
+ 
+        var request = JSON.stringify(requestObj);
+        console.log(request);
+  
+        $$.post("/repoconfig", request, function(data, status){
+           var response = JSON.stringify(data);    
+           var stat = JSON.stringify(status);
+            
+           alert("Data: " + response + "\nStatus: " + stat);
+           
+
+           self.rawData(response);
+           self.mapToRepoConfig(data);
+           
+           self.htmlTree(json2html(data));
+           
+        });
+     
+    }    
+    
+    this.mapToRepoConfig = function(repos) {
+        ko.mapping.fromJS(repos, self.repoConfig);
+    };
+   
+}
+
+ko.applyBindings(new RepoConfigViewModel());
+
+ 
+$$(function(){
+    // DOM Ready - do your stuff 
+
+}); 
+
+ 
+</script>
+
