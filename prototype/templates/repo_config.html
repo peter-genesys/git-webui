@@ -6,26 +6,21 @@
 <button data-bind="click: refreshRepoConfig" class="ui-button ui-widget ui-corner-all">Refresh Config</button>
 
 <pre data-bind="text: rawData">dummy</pre> 
-
-
-<table>
-    <thead><tr>
-        <th>Repo Name</th><th>Path</th>
-    </tr></thead>
-    <tbody data-bind="foreach: repos">
-        <tr>
-            <td data-bind="text: _RepoName"></td>
-            <td data-bind="text: _RepoPath"></td>
-        </tr>    
-    </tbody>
-
-</table>
+ 
 
 <div id="accordion" data-bind="foreach: repos">
   <div class="group">    
     <h3 data-bind="text: _RepoName"></h3>
     <div>
       <p data-bind="text: _RepoPath"></p>
+      <p data-bind="text: _ApexRelPath"></p>
+      <p data-bind="text: _ODBCjavaRelPath"></p>
+      <p data-bind="text: _DatabaseRelPath"></p>
+      <p data-bind="text: _ExtrasRelPath"></p>
+      <p data-bind="text: _PatchRelPath"></p>
+      <p data-bind="text: _PatchExportPath"></p>
+      <p data-bind="text: _UsePatchAdmin"></p>
+      <p data-bind="text: _ReleaseMan"></p>
     </div>
   </div>  
 </div>
@@ -62,9 +57,25 @@ function RepoConfigViewModel() {
     self.rawData = ko.observable("{}");
  
     self.repos = ko.mapping.fromJS([{"_RepoName":"NavigoAlesco",
-                                     "_RepoPath":"F:/navigo_alesco/"}
-                                    ,{"_RepoName":"stuff",
-                                     "_RepoPath":"F:/navigo_alesco/"}]);
+            "_RepoPath":"F:/navigo_alesco/",
+            "_ApexRelPath":"apex/",
+            "_ODBCjavaRelPath":"database/apex/oracle/jdbc/lib/ojdbc5.jar",
+            "_DatabaseRelPath":"database/",
+            "_ExtrasRelPath":"database/",
+            "_PatchRelPath":"patch/",
+            "_PatchExportPath":"F:/export/",
+            "_UsePatchAdmin":"False",
+            "_ReleaseMan":"Environment Branches"}
+                                    ,{"_RepoName":"NavigoAlesco",
+            "_RepoPath":"F:/navigo_alesco/",
+            "_ApexRelPath":"apex/",
+            "_ODBCjavaRelPath":"database/apex/oracle/jdbc/lib/ojdbc5.jar",
+            "_DatabaseRelPath":"database/",
+            "_ExtrasRelPath":"database/",
+            "_PatchRelPath":"patch/",
+            "_PatchExportPath":"F:/export/",
+            "_UsePatchAdmin":"False",
+            "_ReleaseMan":"Environment Branches"}]);
     
     self.htmlTree = ko.observable("<pre>DEMO</pre>");
   
@@ -111,6 +122,7 @@ $$(function(){
     $$( "#accordion" )
       .accordion({
         header: "> div > h3"
+       ,collapsible: true
       })
       .sortable({
         axis: "y",
