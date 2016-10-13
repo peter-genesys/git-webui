@@ -14,6 +14,27 @@ $def with (content)
     <link href="static/css/main-style.css" rel="stylesheet" type="text/css"/>
     <!-- Page-Level CSS -->
     <link href="static/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" type="text/css"/>
+    
+    
+    <!-- Core Scripts - Include with every page -->
+    <script src="static/plugins/jquery-1.10.2.js"></script>
+    <script src="static/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="static/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="static/plugins/pace/pace.js"></script>
+    <script src="static/scripts/siminta.js"></script>
+    
+    <!-- knockout -->
+    <script src='static/js/knockout-3.4.0.js'></script>
+    <script src='static/js/knockout.mapping.js'></script>
+    
+    <!-- Page-Level Plugin Scripts-->
+    <script src="static/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="static/plugins/morris/morris.js"></script>
+    <script src="static/scripts/dashboard-demo.js"></script>
+    
+    
+    
+    
    </head>
 <body>
     <!--  wrapper -->
@@ -372,6 +393,17 @@ $def with (content)
                         </ul>
                         <!-- second-level-items -->
                     </li>
+                    
+                    <!-- Repositories -->
+                    <li>
+                        <a href="#"><i class="fa fa-files-o fa-fw" data-bind="click: refreshRepoConfig"></i>Repositories<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" data-bind="foreach: repos">
+                            <li>
+                                <a href="repoconfig" data-bind="text: _RepoName"></a>
+                            </li>
+                        </ul>
+                    </li>       
+    
                 </ul>
                 <!-- end side-menu -->
             </div>
@@ -389,16 +421,7 @@ $:content
     </div>
     <!-- end wrapper -->
 
-    <!-- Core Scripts - Include with every page -->
-    <script src="static/plugins/jquery-1.10.2.js"></script>
-    <script src="static/plugins/bootstrap/bootstrap.min.js"></script>
-    <script src="static/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="static/plugins/pace/pace.js"></script>
-    <script src="static/scripts/siminta.js"></script>
-    <!-- Page-Level Plugin Scripts-->
-    <script src="static/plugins/morris/raphael-2.1.0.min.js"></script>
-    <script src="static/plugins/morris/morris.js"></script>
-    <script src="static/scripts/dashboard-demo.js"></script>
+
 
 </body>
 
