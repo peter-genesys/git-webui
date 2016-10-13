@@ -33,7 +33,7 @@ app_root = os.path.dirname(os.path.dirname(__file__))  #Start from app.py (pytho
 web.debug(app_root)
 tempates_dir = os.path.join(app_root,'templates/')
 web.debug(tempates_dir)
-render = web.template.render(tempates_dir, globals=globals(), base="layout")
+render = web.template.render(tempates_dir, globals=globals(), base="layout1")
 
 #GLOBAL FUNCTIONS
 #workaround for missing host details
@@ -51,9 +51,10 @@ class redirect:
 
 class Index(object):
     def GET(self):
+        return render.index()  
         # this is used to "setup" the session with starting values
         #session.SQLsession = None
-        seeother('repolist')
+        #seeother('repolist')
 
 class RepoList(object):
 
