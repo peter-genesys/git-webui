@@ -19,10 +19,10 @@ limitations under the License.*/
 
 /* Global Styles */
 
-/* ------------------------------- */
+/* -------------------------------#f8f8f8 */
 
  body {
-    background-color: #f8f8f8;
+    background-color: #ffffff;
 }
 
 /* Wrappers */
@@ -127,18 +127,22 @@ limitations under the License.*/
     content: "\f107";
 }
 
-.nav-second-level li,
-.nav-third-level li {
+ul .nav-second-level li,
+ul .nav-third-level li {
     border-bottom: none !important;
 }
 
-.nav-second-level li a {
+ul .nav-second-level li a {
     padding-left: 37px;
 }
 
-.nav-third-level li a {
+ul .nav-third-level li a {
     padding-left: 52px;
 }
+
+/* --------------Trying to figure out why class not assigned to nav bars----------------- */
+ 
+ 
 
 @media(min-width:768px) {
     .navbar-static-side {
